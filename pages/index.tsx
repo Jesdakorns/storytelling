@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { Button } from "@material-ui/core";
 
-import { TweenMax, TimelineLite, Power3 } from 'gsap';
+import { TweenMax, TimelineLite, Power3, gsap } from 'gsap';
 import Navbar from "../components/Navbar";
 import ImageContent from "../components/ImageContent";
 import { CSSPlugin } from 'gsap/CSSPlugin'
@@ -56,7 +56,7 @@ export default function Home() {
     const router = useRouter();
     let box = useRef(null);
     let tl1 = new TimelineLite();
- 
+
     const goMain = async () => {
 
         await tl1.from(box.current, {
@@ -65,12 +65,12 @@ export default function Home() {
             // ease: "bounce",
             // rotation: 0,
             // transformPerspective: 500,
-            y:'0'
+            y: '0'
 
         }).to(box.current, {
             // duration: 1,
             // scaleX: 0,
-            y:'-100%'
+            y: '-100%'
             // rotation: 360,
 
         })
