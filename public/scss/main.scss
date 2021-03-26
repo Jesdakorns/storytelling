@@ -65,10 +65,13 @@ $white: #ffffff;
       border-top: 0;
     //   border-right: 0;
       border-left: 0;
+      border-bottom: 0;
     //   border-top-right-radius: 0;
     //   border-top-left-radius: 0;
    }
    .item-timeline:last-child {
+    border-right: 0;
+    // border-top: 0;
     //   border-bottom-right-radius: 0;
     //   border-bottom-left-radius: 0;
    }
