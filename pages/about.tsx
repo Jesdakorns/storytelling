@@ -243,8 +243,7 @@ export default function about() {
                         <div className="timeline">
                             {
                                 RelevantExperience.map((value, index) => {
-                                    console.log(value.content);
-
+        
                                     return (
                                         <div className="item-timeline" key={value.id}>
                                             <h2>{value.title}</h2>
