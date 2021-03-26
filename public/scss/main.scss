@@ -63,8 +63,10 @@ $white: #ffffff;
    //handle first and last
    .item-timeline:first-child {
       border-top: 0;
-      border-top-right-radius: 0;
-      border-top-left-radius: 0;
+    //   border-right: 0;
+      border-left: 0;
+    //   border-top-right-radius: 0;
+    //   border-top-left-radius: 0;
    }
    .item-timeline:last-child {
     //   border-bottom-right-radius: 0;

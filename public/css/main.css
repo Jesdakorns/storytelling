@@ -36,7 +36,7 @@
 
 .timeline .item-timeline:nth-child(odd) {
   border-right: 3px solid;
-  padding-left: 0;
+  padding-left: 0 !important;
 }
 
 .timeline .item-timeline:nth-child(odd):before {
@@ -46,7 +46,7 @@
 
 .timeline .item-timeline:nth-child(even) {
   border-left: 3px solid;
-  padding-right: 0;
+  padding-right: 0 !important;
 }
 
 .timeline .item-timeline:nth-child(even):before {
@@ -56,12 +56,6 @@
 
 .timeline .item-timeline:first-child {
   border-top: 0;
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
-}
-
-.timeline .item-timeline:last-child {
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
+  border-left: 0;
 }
 /*# sourceMappingURL=main.css.map */
