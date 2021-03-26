@@ -35,7 +35,7 @@
 }
 
 .timeline .item-timeline:nth-child(odd) {
-  border-right: 3px solid;
+  border-right: 3px solid !important;
   padding-left: 0 !important;
   border-right: 0;
 }
@@ -46,7 +46,7 @@
 }
 
 .timeline .item-timeline:nth-child(even) {
-  border-left: 3px solid;
+  border-left: 3px solid !important;
   padding-right: 0 !important;
   border-left: 0;
   border-bottom: 0;
