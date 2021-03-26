@@ -74,7 +74,7 @@ export default function Home() {
 
         })
 
-        await router.push(`/about`)
+        // await router.push(`/about`)
     }
     return (
         <React.Fragment>
