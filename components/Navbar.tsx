@@ -1,0 +1,151 @@
+import { Container, makeStyles } from '@material-ui/core';
+import React, { useState } from 'react';
+import color from '../src/color';
+import Link from '../components/Link';
+import { useRouter } from 'next/router';
+
+
+const useStyles = makeStyles({
+    navbar: {
+        width: '100%',
+        height: 'auto',
+        backgroundColor: color.white,
+        border: `0.1px solid #eeeeee`,
+        alignItems: 'center',
+        '& .navbar-main': {
+            display: 'flex',
+            alignItems: 'center',
+            height: '60px',
+            position: 'relative',
+        },
+        '& .logo-main': {
+            fontSize: '24px',
+            fontWeight: 'bold',
+            ['@media (max-width: 700px)  and (orientation: portrait)']: {
+                width: '100%',
+                textAlign: 'center',
+                position: 'absolute'
+            }
+        },
+        '& .icon-menu': {
+            cursor: 'pointer',
+            display: 'none',
+            fontSize: '24px',
+            zIndex: '99',
+            ['@media (max-width: 700px)  and (orientation: portrait)']: {
+                display: 'flex',
+            }
+        },
+        '& .nav': {
+            display: 'flex',
+            width: '100%',
+            height: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+
+            ['@media (max-width: 700px)  and (orientation: portrait)']: {
+                visibility: 'hidden',
+                opacity: 0,
+                background: color.white,
+
+                position: "fixed",
+                flexDirection: 'column',
+                width: '100%',
+                height: '100vh',
+                left: 0,
+                top: 0,
+                
+                '&.active': {
+                    visibility: 'visible',
+                    zIndex: '999',
+                    transition: '0.2s',
+                    opacity: 1
+                },
+
+            },
+            // position: 'absolute',
+            '& .icon-close-nav': {
+                cursor: 'pointer',
+                display: 'none',
+                zIndex: '9999',
+                justifyContent: 'flex-end',
+                fontSize: '2rem',
+                padding: '0px 20px',
+                position: 'fixed',
+                top: '17px',
+                right: '7px',
+                ['@media (max-width: 700px)  and (orientation: portrait)']: {
+                    display: 'flex',
+
+                }
+            },
+            '& .nav-item': {
+                display: 'flex',
+                listStyle: 'none',
+                padding: 0,
+                '& .item': {
+                    padding: '0 15px',
+                    fontSize: '16px',
+                },
+                '& a': {
+                    padding: '10px 0',
+
+                    '&.active': {
+                        borderBottom: `2px solid ${color.main}`,
+                    }
+                },
+
+                ['@media (max-width: 700px)  and (orientation: portrait)']: {
+                    background: color.white,
+                    zIndex: '999',
+                    position: "fixed",
+                    flexDirection: 'column',
+                    width: '100%',
+                    height: '100vh',
+                    left: 0,
+                    top: 0,
+                    justifyContent: 'space-evenly',
+                    alignItems: 'center',
+
+
+                },
+            },
+
+        }
+    },
+
+
+});
+export default function Navbar() {
+    const classes = useStyles();
+    const router = useRouter();
+
+    const [open, setOpen] = useState(false)
+
+    return (
+        <React.Fragment>
+            <div className={classes.navbar}>
+                <Container fixed>
+                    <div className="navbar-main">
+                        <div className="icon-menu" onClick={() => setOpen(true)}><i className="far fa-bars"></i></div>
+                        <div className="logo-main"><Link to="/" style="">PROFILE</Link></div>
+                        <div className={open ? 'nav active' : 'nav'} >
+                            <i className="icon-close-nav" onClick={() => setOpen(false)}><i className="fal fa-times"></i></i>
+                            <ul className="nav-item">
+
+                                <li className="item"><Link to="/" style={(router.pathname == '/' && 'active')} >HOME</Link></li>
+                                <li className="item"><Link to="/about" style={(router.pathname == '/about' && 'active')} >ABOUT</Link></li>
+                                <li className="item"><Link to="/honours_awards" style={(router.pathname == '/honours_awards' && 'active')} >HONOURS & AWARDS</Link></li>
+                                {/* <li className="item"><Link to="/image" style={(router.pathname == '/image' && 'active')} >IMAGE</Link></li> */}
+                                <li className="item"><Link to="/portfolio" style={(router.pathname == '/portfolio' && 'active')} >PORTFOLIO</Link></li>
+                                <li className="item"><Link to="/contact" style={(router.pathname == '/contact' && 'active')} >CONTACT</Link></li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </Container>
+            </div>
+
+        </React.Fragment>
+    )
+}

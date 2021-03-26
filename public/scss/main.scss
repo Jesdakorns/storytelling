@@ -1,0 +1,73 @@
+//Text Styles
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
+$font-sans: "Open Sans", sans-serif;
+
+//Colors
+$black: #34435e;
+$white: #ffffff;
+
+.timeline {
+   min-width: 300px;
+   max-width: 500px;
+   margin: auto;
+   padding: 0 25px;
+
+   .item-timeline {
+      font-size: 1em;
+      line-height: 1.75em;
+      border-top: 3px solid;
+      border-image: linear-gradient(to right, #743ad5 0%, #d53a9d 100%);
+      border-image-slice: 1;
+      border-width: 3px;
+      margin: 0;
+      padding: 40px;
+      counter-increment: section;
+      position: relative;
+      color: $black;
+
+      //numbers
+      &:before {
+         content: counter(section);
+         position: absolute;
+         border-radius: 50%;
+         padding: 10px;
+         height: 2em;
+         width: 2em;
+         background-color: $black;
+         text-align: center;
+         line-height: 1.25em;
+         color: $white;
+         font-size: 1.5em;
+      }
+   }
+   //odd number borders
+   .item-timeline:nth-child(odd) {
+      border-right: 3px solid;
+      padding-left: 0;
+
+      &:before {
+         left: 100%;
+         margin-left: -20px;
+      }
+   }
+   //even number borders
+   .item-timeline:nth-child(even) {
+      border-left: 3px solid;
+      padding-right: 0;
+
+      &:before {
+         right: 100%;
+         margin-right: -20px;
+      }
+   }
+   //handle first and last
+   .item-timeline:first-child {
+      border-top: 0;
+      border-top-right-radius: 0;
+      border-top-left-radius: 0;
+   }
+   .item-timeline:last-child {
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+   }
+}
