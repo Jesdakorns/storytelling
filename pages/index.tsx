@@ -7,7 +7,7 @@ import { Button } from "@material-ui/core";
 import { TweenMax, TimelineLite, Power3 } from 'gsap';
 import Navbar from "../components/Navbar";
 import ImageContent from "../components/ImageContent";
-
+import { CSSPlugin } from 'gsap/CSSPlugin'
 import color from '../src/color';
 import { useRouter } from "next/router";
 const useStyles = makeStyles({
@@ -74,7 +74,7 @@ export default function Home() {
             // rotation: 360,
 
         })
-
+        gsap.registerPlugin(CSSPlugin)
         // await router.push(`/about`)
     }
     return (
