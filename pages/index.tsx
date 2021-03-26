@@ -4,10 +4,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { Button } from "@material-ui/core";
 
-import { TweenMax, TimelineLite, Power3, gsap } from 'gsap';
+import { TweenMax, TimelineLite, Power3, gsap, CSSPlugin } from 'gsap';
 import Navbar from "../components/Navbar";
 import ImageContent from "../components/ImageContent";
-import { CSSPlugin } from 'gsap/CSSPlugin'
+// import { CSSPlugin } from 'gsap/CSSPlugin'
 import color from '../src/color';
 import { useRouter } from "next/router";
 const useStyles = makeStyles({
