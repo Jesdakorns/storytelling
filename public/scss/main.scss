@@ -44,7 +44,7 @@ $white: #ffffff;
    .item-timeline:nth-child(odd) {
       border-right: 3px solid;
       padding-left: 0 !important;
-
+      border-right: 0;
       &:before {
          left: 100%;
          margin-left: -20px;
@@ -54,7 +54,7 @@ $white: #ffffff;
    .item-timeline:nth-child(even) {
       border-left: 3px solid;
       padding-right: 0 !important;
-
+      border-left: 0;
       &:before {
          right: 100%;
          margin-right: -20px;
