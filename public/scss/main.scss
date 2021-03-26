@@ -43,7 +43,7 @@ $white: #ffffff;
    //odd number borders
    .item-timeline:nth-child(odd) {
       border-right: 3px solid;
-      padding-left: 0;
+      padding-left: 0 !important;
 
       &:before {
          left: 100%;
@@ -53,7 +53,7 @@ $white: #ffffff;
    //even number borders
    .item-timeline:nth-child(even) {
       border-left: 3px solid;
-      padding-right: 0;
+      padding-right: 0 !important;
 
       &:before {
          right: 100%;
@@ -67,7 +67,7 @@ $white: #ffffff;
       border-top-left-radius: 0;
    }
    .item-timeline:last-child {
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 0;
+    //   border-bottom-right-radius: 0;
+    //   border-bottom-left-radius: 0;
    }
 }
