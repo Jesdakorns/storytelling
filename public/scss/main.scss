@@ -54,7 +54,7 @@ $white: #ffffff;
    .item-timeline:nth-child(even) {
       border-left: 3px solid !important;
       padding-right: 0 !important;
-      border-left: 0;
+      border-right: 0;
       border-bottom: 0;
       &:before {
          right: 100%;
