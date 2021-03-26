@@ -21,7 +21,7 @@ const useStyles = makeStyles({
         '& .logo-main': {
             fontSize: '24px',
             fontWeight: 'bold',
-            ['@media (max-width: 700px)  and (orientation: portrait)']: {
+            ['@media (max-width: 970px)  ']: {
                 width: '100%',
                 textAlign: 'center',
                 position: 'absolute'
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
             display: 'none',
             fontSize: '24px',
             zIndex: '99',
-            ['@media (max-width: 700px)  and (orientation: portrait)']: {
+            ['@media (max-width: 970px)  ']: {
                 display: 'flex',
             }
         },
@@ -43,7 +43,7 @@ const useStyles = makeStyles({
             alignItems: 'center',
             justifyContent: 'center',
 
-            ['@media (max-width: 700px)  and (orientation: portrait)']: {
+            ['@media (max-width: 970px)  ']: {
                 visibility: 'hidden',
                 opacity: 0,
                 background: color.white,
@@ -74,7 +74,7 @@ const useStyles = makeStyles({
                 position: 'fixed',
                 top: '17px',
                 right: '7px',
-                ['@media (max-width: 700px)  and (orientation: portrait)']: {
+                ['@media (max-width: 970px)  ']: {
                     display: 'flex',
 
                 }
@@ -95,7 +95,7 @@ const useStyles = makeStyles({
                     }
                 },
 
-                ['@media (max-width: 700px)  and (orientation: portrait)']: {
+                ['@media (max-width: 970px)  and (orientation: portrait)']: {
                     background: color.white,
                     zIndex: '999',
                     position: "fixed",
