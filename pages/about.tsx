@@ -232,7 +232,6 @@ export default function about() {
                                     )
                                 })
                             }
-\
                         </div>
                     </section>
                 </div>
