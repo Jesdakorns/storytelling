@@ -65,6 +65,7 @@ export default function Home() {
             // ease: "bounce",
             // rotation: 0,
             // transformPerspective: 500,
+            y:'0'
 
         }).to(box.current, {
             // duration: 1,
