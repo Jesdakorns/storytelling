@@ -37,7 +37,7 @@
 .timeline .item-timeline:nth-child(odd) {
   border-right: 3px solid !important;
   padding-left: 0 !important;
-  border-right: 0;
+  border-left: 0;
 }
 
 .timeline .item-timeline:nth-child(odd):before {

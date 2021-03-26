@@ -44,7 +44,7 @@ $white: #ffffff;
    .item-timeline:nth-child(odd) {
       border-right: 3px solid !important;
       padding-left: 0 !important;
-      border-right: 0;
+      border-left: 0;
       &:before {
          left: 100%;
          margin-left: -20px;
