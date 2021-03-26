@@ -75,7 +75,7 @@ export default function Home() {
 
         })
         gsap.registerPlugin(CSSPlugin)
-        // await router.push(`/about`)
+        await router.push(`/about`)
     }
     return (
         <React.Fragment>

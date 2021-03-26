@@ -6,8 +6,7 @@ import { Container } from '@material-ui/core';
 import Footer from '../components/Footer';
 import color from '../src/color';
 import LanguageIcon from '../components/LanguageIcon';
-import { TweenMax, TimelineLite, Power3 } from 'gsap';
-
+import { TweenMax, TimelineLite, Power3, gsap, CSSPlugin } from 'gsap';
 const useStyles = makeStyles({
     bg: {
         backgroundColor: color.white
@@ -150,37 +149,38 @@ export default function about() {
     useEffect(() => {
         setRelevantExperience(_RelevantExperience)
         setEducation(_Education)
-        // tl1.from(boxLeft.current, {
-        //     x: '-100%',
-        //     transformPerspective: 100,
-        //     duration: 0.2,
-        //     opacity: 0,
-        //     ease: "elastic"
+        tl1.from(boxLeft.current, {
+            x: '-100%',
+            transformPerspective: 100,
+            duration: 0.2,
+            opacity: 0,
+            ease: "elastic"
 
 
-        // }).to(boxLeft.current, {
-        //     x: '0',
-        //     opacity: 1
+        }).to(boxLeft.current, {
+            x: '0',
+            opacity: 1
 
-        // })
-        // tl1.from(boxRight.current, {
-        //     x: '150%',
-        //     duration: 0.2,
-        //     opacity: 0
+        })
+        tl1.from(boxRight.current, {
+            x: '150%',
+            duration: 0.2,
+            opacity: 0
 
 
-        // }).to(boxRight.current, {
-        //     x: '0',
-        //     opacity: 1
+        }).to(boxRight.current, {
+            x: '0',
+            opacity: 1
 
-        // })
-        // tl1.from(boxLanguage.current, {
-        //     opacity: 0,
-        //     duration: 0.2
-        // }).to(boxLanguage.current, {
-        //     opacity: 1
+        })
+        tl1.from(boxLanguage.current, {
+            opacity: 0,
+            duration: 0.2
+        }).to(boxLanguage.current, {
+            opacity: 1
 
-        // })
+        })
+        gsap.registerPlugin(CSSPlugin)
     }, [])
     return (
         <div>
