@@ -103,6 +103,38 @@ function MyApp(props) {
             * {
                box-sizing: border-box;
             }
+            @keyframes animate1 {
+                0%{
+                    transform: translateX(100%)
+                }
+                100%{
+                    transform: translateX(-100%)
+                }
+            }
+            @keyframes animate2 {
+                0%{
+                    transform: translateX(0%)
+                }
+                100%{
+                    transform: translateX(-200%)
+                }
+            }
+            @keyframes animate3 {
+                0%{
+                    transform: translateX(-100%)
+                }
+                100%{
+                    transform: translateX(100%)
+                }
+            }
+            @keyframes animate4 {
+                0%{
+                    transform: translateX(-200%)
+                }
+                100%{
+                    transform: translateX(0%)
+                }
+            }
          `}</style>
       </React.Fragment>
    );

@@ -10,18 +10,71 @@ import ImageContent from "../components/ImageContent";
 // import { CSSPlugin } from 'gsap/CSSPlugin'
 import color from '../src/color';
 import { useRouter } from "next/router";
+
 const useStyles = makeStyles({
     root: {
+        position: 'relative',
         width: '100%',
         height: '100vh',
-        background: color.main,
-        position: 'relative',
+        background: '#111',
+        // position: 'relative',
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: color.white,
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        // color: color.white,
         flexDirection: 'column',
-        padding: '25px',
+        overflow: 'hidden',
+        // padding: '25px',
+        '& .row': {
+            position: 'relative',
+            top: '-50%',
+            width: '100%',
+            display: 'flex',
+            padding: '10px 0',
+            whiteSpace: 'nowrap',
+            fontSize: '64px',
+            transform: 'rotate(-30deg)',
+            '& div': {
+
+                animation: 'animate1 80s linear infinite',
+                animationDelay: '-80s',
+                '&:nth-child(2)': {
+                    animation: 'animate2 80s linear infinite',
+                    animationDelay: '-40s',
+                }
+            }
+        },
+        '& .row:nth-child(even)': {
+            position: 'relative',
+            top: '-50%',
+            width: '100%',
+            display: 'flex',
+            padding: '10px 0',
+            whiteSpace: 'nowrap',
+            fontSize: '64px',
+            transform: 'rotate(-30deg)',
+            '& div': {
+
+                animation: 'animate3 80s linear infinite',
+                animationDelay: '-80s',
+                '&:nth-child(2)': {
+                    animation: 'animate4 80s linear infinite',
+                    animationDelay: '-40s',
+                }
+            }
+        },
+        '& .icon-bg': {
+            color: 'rgba(0, 0, 0 , 0.5)',
+            transition: '0.5s',
+            padding: '0 5px',
+            useSelect: 'none',
+            cursor: 'default',
+            '&:hover': {
+                transition: '0s',
+                color: '#fff',
+                textShadow: '0 0 120px #fff'
+            }
+        },
         '& .title': {
             // position: 'absolute',
             color: color.white,
@@ -45,6 +98,17 @@ const useStyles = makeStyles({
         '& .icon-next': {
             fontSize: '35px',
             lineHeight: 0,
+            color: color.white
+        },
+        '& .box-title':{
+            position: 'absolute',
+            top: '0',
+            width:' 100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
         }
     },
 
@@ -80,8 +144,100 @@ export default function Home() {
     return (
         <React.Fragment>
             <div className={classes.root} ref={box}>
-                <h1 className="title">Welcome to profile<br /> Jesdakorn</h1>
-                <div className="btn-next" onClick={goMain}><i className="icon-next"><i className="fal fa-angle-down"></i></i></div>
+                {
+                    [1, 2, , 2, 2, 2, 222, 22, 22, 2, 2, 2, 2, 2, 2, 2].map((value, index) => {
+                        return (
+                            <div className="row" key={index}>
+                                <div>
+                                    <i className="icon-bg"><i className="fab fa-html5" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-css3-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-js" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-node" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-vuejs" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-react" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-bootstrap" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-code" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-github-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-shield-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-user-secret" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-amazon" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-bootstrap" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-code" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-github-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-shield-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-user-secret" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-amazon" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-html5" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-css3-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-js" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-node" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-vuejs" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-react" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-bootstrap" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-code" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-github-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-shield-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-user-secret" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-amazon" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-bootstrap" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-code" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-github-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-shield-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-user-secret" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-amazon" aria-hidden="true"></i></i>
+                                </div>
+                                <div>
+                                    <i className="icon-bg"><i className="fab fa-html5" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-css3-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-js" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-node" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-vuejs" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-react" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-bootstrap" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-code" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-github-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-shield-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-user-secret" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-amazon" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-bootstrap" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-code" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-github-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-shield-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-user-secret" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-amazon" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-html5" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-css3-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-js" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-node" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-vuejs" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-react" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-bootstrap" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-code" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-github-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-shield-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-user-secret" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-amazon" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-bootstrap" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-code" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-github-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-shield-alt" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fas fa-user-secret" aria-hidden="true"></i></i>
+                                    <i className="icon-bg"><i className="fab fa-amazon" aria-hidden="true"></i></i>
+                                </div>
+                            </div>
+                        )
+
+                    })
+
+
+                }
+
+
+                <div className="box-title">
+                    <h1 className="title">Welcome to profile<br /> Jesdakorn</h1>
+                    <div className="btn-next" onClick={goMain}><i className="icon-next"><i className="fal fa-angle-down"></i></i></div>
+
+                </div>
             </div>
             {/* <Navbar></Navbar> */}
             {/* <ImageContent title="HOME"></ImageContent> */}
