@@ -103,6 +103,9 @@ function MyApp(props) {
             * {
                box-sizing: border-box;
             }
+            a{
+                text-decoration:none;
+            }
             @keyframes animate1 {
                 0%{
                     transform: translateX(100%)

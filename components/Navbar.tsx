@@ -95,7 +95,7 @@ const useStyles = makeStyles({
                     }
                 },
 
-                ['@media (max-width: 970px)  and (orientation: portrait)']: {
+                ['@media (max-width: 970px)']: {
                     background: color.white,
                     zIndex: '999',
                     position: "fixed",

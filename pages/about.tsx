@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { makeStyles } from "@material-ui/core/styles";
 import Navbar from '../components/Navbar';
 import ImageContent from '../components/ImageContent';
-import { Container } from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
 import Footer from '../components/Footer';
 import color from '../src/color';
 import LanguageIcon from '../components/LanguageIcon';
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
             alignItems: 'center',
             justifyContent: 'center',
             padding: '50px 0',
-            ['@media (max-width: 700px)  and (orientation: portrait)']: {
+            ['@media (max-width: 970px) ']: {
                 padding: '40px 0',
                 flexDirection: 'column',
                 height: 'auto',
@@ -34,7 +34,7 @@ const useStyles = makeStyles({
             justifyContent: 'center',
             padding: '50px 0',
             flexDirection: 'column',
-            ['@media (max-width: 700px)  and (orientation: portrait)']: {
+            ['@media (max-width: 970px) ']: {
                 padding: '40px 0',
                 flexDirection: 'column',
                 height: 'auto',
@@ -59,7 +59,7 @@ const useStyles = makeStyles({
             textAlign: 'center',
             paddingRight: '20px',
             // opacity: 0,
-            ['@media (max-width: 700px)  and (orientation: portrait)']: {
+            ['@media (max-width: 970px) ']: {
                 width: '100%',
                 padding: '10px',
             },
@@ -93,7 +93,10 @@ const useStyles = makeStyles({
         },
         '& .bootstrap': {
             color: '#6423fc'
-        }
+        },'& .resume-m':{
+            marginRight: '10px'
+        },
+     
     }
 });
 
@@ -193,6 +196,8 @@ export default function about() {
                             <h3 className="title">Hi, Mr.Jesdakorn Saelor</h3>
                             <p>Web developer</p>
                             <p>  I’m a gra duate in the faculty of Informatics, Software Engineering Major at Burapha University. I have experience writing a web application with HTML, PHP, CSS, SQL, JavaScript and developing web application the format MVC.</p>
+                            <a href="/file/Resume_Jesdakorn_Saelor.pdf" download ><Button className="resume-m" variant="contained" color="primary">Resume</Button></a>
+                            <a href="/file/Transcript_Jesdakorn_Saelor.pdf" download><Button variant="outlined">Transcript</Button></a>
                         </div>
                         <div >
                             <div ref={boxRight} className="image-profile" style={{ backgroundImage: `url('/image/profile.jpg')` }}></div>
@@ -224,7 +229,7 @@ export default function about() {
                             {
                                 Education.map((value, index) => {
                                     return (
-                                        <div className="item-timeline">
+                                        <div className="item-timeline" key={index}>
                                             <h2>{value.title}<br />{value.time}</h2>
                                             <p>{value.content}</p>
                                         </div>
@@ -243,7 +248,7 @@ export default function about() {
                         <div className="timeline">
                             {
                                 RelevantExperience.map((value, index) => {
-        
+
                                     return (
                                         <div className="item-timeline" key={value.id}>
                                             <h2>{value.title}</h2>
