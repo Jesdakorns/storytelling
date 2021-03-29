@@ -52,6 +52,7 @@ const useStyles = makeStyles({
                 flexDirection: 'column',
                 width: '100%',
                 height: '100vh',
+                height: 'calc(var(--vh, 1vh) * 100)',
                 left: 0,
                 top: 0,
                 
