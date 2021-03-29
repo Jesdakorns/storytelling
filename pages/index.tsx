@@ -16,6 +16,7 @@ const useStyles = makeStyles({
         position: 'relative',
         width: '100%',
         height: '100vh',
+ 
         background: '#111',
         // position: 'relative',
         display: 'flex',
@@ -143,7 +144,7 @@ export default function Home() {
     }
     return (
         <React.Fragment>
-            <div className={classes.root} ref={box}>
+            <div className={classes.root + ' _main'} ref={box}>
                 {
                     [1, 2, , 2, 2, 2, 222, 22, 22, 2, 2, 2, 2, 2, 2, 2].map((value, index) => {
                         return (

@@ -25,11 +25,12 @@ function MyApp(props) {
    return (
       <React.Fragment>
          <Head>
-            <title>Onliasne Shopping</title>
+            <title>Profile</title>
             <meta
                name="viewport"
                content="minimum-scale=1, initial-scale=1, width=device-width"
             />
+            <link rel="icon" href="/image/icon-bowser.png"></link>
             <link
                rel="stylesheet"
                href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
@@ -80,6 +81,9 @@ function MyApp(props) {
                font-family: "Prompt", sans-serif;
                background: #686868;
             }
+            .__main {
+               height: calc(var(--vh, 1vh) * 100);
+            }
             .react-viewer-close {
                position: fixed;
                top: 0px;
@@ -92,51 +96,51 @@ function MyApp(props) {
                z-index: 1010;
             }
             .react-viewer-close > i {
-               position: relative  !important;
+               position: relative !important;
                top: 18px !important;
                left: 36px !important;
                font-size: 20px !important;
             }
-            #__next{
-                overflow: hidden !important;
+            #__next {
+               overflow: hidden !important;
             }
             * {
                box-sizing: border-box;
             }
-            a{
-                text-decoration:none;
+            a {
+               text-decoration: none;
             }
             @keyframes animate1 {
-                0%{
-                    transform: translateX(100%)
-                }
-                100%{
-                    transform: translateX(-100%)
-                }
+               0% {
+                  transform: translateX(100%);
+               }
+               100% {
+                  transform: translateX(-100%);
+               }
             }
             @keyframes animate2 {
-                0%{
-                    transform: translateX(0%)
-                }
-                100%{
-                    transform: translateX(-200%)
-                }
+               0% {
+                  transform: translateX(0%);
+               }
+               100% {
+                  transform: translateX(-200%);
+               }
             }
             @keyframes animate3 {
-                0%{
-                    transform: translateX(-100%)
-                }
-                100%{
-                    transform: translateX(100%)
-                }
+               0% {
+                  transform: translateX(-100%);
+               }
+               100% {
+                  transform: translateX(100%);
+               }
             }
             @keyframes animate4 {
-                0%{
-                    transform: translateX(-200%)
-                }
-                100%{
-                    transform: translateX(0%)
-                }
+               0% {
+                  transform: translateX(-200%);
+               }
+               100% {
+                  transform: translateX(0%);
+               }
             }
          `}</style>
       </React.Fragment>
