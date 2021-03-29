@@ -26,9 +26,10 @@ function MyApp(props) {
       <React.Fragment>
          <Head>
             <title>Profile</title>
+
             <meta
                name="viewport"
-               content="minimum-scale=1, initial-scale=1, width=device-width"
+               content="minimum-scale=1, initial-scale=1, width=device-width , viewer-fit=cover"
             />
             <link rel="icon" href="/image/icon-bowser.png"></link>
             <link
