@@ -81,6 +81,9 @@ const useStyles = makeStyles({
             color: color.white,
             fontSize: '65px',
             textAlign: 'center',
+            ['@media (max-width: 900px)  and (orientation: landscape)']: {
+                fontSize: '35px',
+            },
             ['@media (max-width: 700px)  and (orientation: portrait)']: {
                 fontSize: '45px',
             }
