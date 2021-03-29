@@ -106,6 +106,7 @@ function MyApp(props) {
             #__next {
                overflow: hidden !important;
                position: relative;
+               width: 100%;
             }
             #__next.active {
                position: fixed;

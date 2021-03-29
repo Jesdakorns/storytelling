@@ -84,9 +84,17 @@ const useStyles = makeStyles({
                 display: 'flex',
                 listStyle: 'none',
                 padding: 0,
+            
                 '& .item': {
                     padding: '0 15px',
                     fontSize: '16px',
+                    ['@media (max-width: 970px)']: {
+                        '& div':{
+                            margin: '50px 0px'
+                        }
+                 
+                    }
+
                 },
                 '& a': {
                     padding: '10px 0',
@@ -97,16 +105,17 @@ const useStyles = makeStyles({
                 },
 
                 ['@media (max-width: 970px)']: {
+                    overflow: 'scroll',
                     background: color.white,
                     zIndex: '999',
-                    position: "fixed",
+                    // position: "fixed",
                     flexDirection: 'column',
                     width: '100%',
                     // height: '100vh',
-                    height: 'calc(var(--vh, 1vh) * 100)',
+                    // height: 'calc(var(--vh, 1vh) * 100)',
                     left: 0,
                     top: 0,
-                    justifyContent: 'space-evenly',
+                    // justifyContent: 'space-evenly',
                     alignItems: 'center',
 
 
@@ -139,15 +148,15 @@ export default function Navbar() {
                         <div className="logo-main"><Link to="/" style="">PROFILE</Link></div>
                         <div className={open ? 'nav active' : 'nav'} >
                             <i className="icon-close-nav" onClick={() => setOpen(false)}><i className="fal fa-times"></i></i>
-                            <ul className="nav-item">
-
-                                <li className="item"><Link to="/" style={(router.pathname == '/' && 'active')} >HOME</Link></li>
-                                <li className="item"><Link to="/about" style={(router.pathname == '/about' && 'active')} >ABOUT</Link></li>
-                                <li className="item"><Link to="/honours_awards" style={(router.pathname == '/honours_awards' && 'active')} >HONOURS & AWARDS</Link></li>
+                            <div className="nav-item">
+                                
+                                <div className="item"><Link to="/" style={(router.pathname == '/' && 'active')} >HOME</Link></div>
+                                <div className="item"><Link to="/about" style={(router.pathname == '/about' && 'active')} >ABOUT</Link></div>
+                                <div className="item"><Link to="/honours_awards" style={(router.pathname == '/honours_awards' && 'active')} >HONOURS & AWARDS</Link></div>
                                 {/* <li className="item"><Link to="/image" style={(router.pathname == '/image' && 'active')} >IMAGE</Link></li> */}
-                                <li className="item"><Link to="/portfolio" style={(router.pathname == '/portfolio' && 'active')} >PORTFOLIO</Link></li>
-                                <li className="item"><Link to="/contact" style={(router.pathname == '/contact' && 'active')} >CONTACT</Link></li>
-                            </ul>
+                                <div className="item"><Link to="/portfolio" style={(router.pathname == '/portfolio' && 'active')} >PORTFOLIO</Link></div>
+                                <div className="item"><Link to="/contact" style={(router.pathname == '/contact' && 'active')} >CONTACT</Link></div>
+                            </div>
 
                         </div>
                     </div>
