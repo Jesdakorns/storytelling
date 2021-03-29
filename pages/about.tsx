@@ -58,6 +58,7 @@ const useStyles = makeStyles({
             width: '550px',
             textAlign: 'center',
             paddingRight: '20px',
+            marginBottom: '20px',
             // opacity: 0,
             ['@media (max-width: 970px) ']: {
                 width: '100%',
@@ -73,30 +74,13 @@ const useStyles = makeStyles({
             margin: 0,
             lineHeight: '1.5'
         },
-        '& .html': {
-            color: '#ff6849'
-        },
-        '& .css': {
-            color: '#49b6ff'
-        },
-        '& .js': {
-            color: '#d7d700'
-        },
-        '& .node': {
-            color: '#13ad0d'
-        },
-        '& .vue': {
-            color: '#118b0c'
-        },
-        '& .react': {
-            color: '#49b6ff'
-        },
-        '& .bootstrap': {
-            color: '#6423fc'
-        },'& .resume-m':{
+        '& .resume-m': {
             marginRight: '10px'
         },
-     
+        '& .btn-resume': {
+            background: 'linear-gradient(to right, #743ad5 0%, #d53a9d 100%)'
+        }
+
     }
 });
 
@@ -196,8 +180,8 @@ export default function about() {
                             <h3 className="title">Hi, Mr.Jesdakorn Saelor</h3>
                             <p>Web developer</p>
                             <p>  I’m a gra duate in the faculty of Informatics, Software Engineering Major at Burapha University. I have experience writing a web application with HTML, PHP, CSS, SQL, JavaScript and developing web application the format MVC.</p>
-                            <a href="/file/Resume_Jesdakorn_Saelor.pdf" download ><Button className="resume-m" variant="contained" color="primary">Resume</Button></a>
-                            <a href="/file/Transcript_Jesdakorn_Saelor.pdf" download><Button variant="outlined">Transcript</Button></a>
+                            <a href="/file/Resume_Jesdakorn_Saelor.pdf" download ><Button className="resume-m btn-resume" size="large" variant="contained" color="primary">Resume</Button></a>
+                            <a href="/file/Transcript_Jesdakorn_Saelor.pdf" download><Button variant="outlined" size="large" >Transcript</Button></a>
                         </div>
                         <div >
                             <div ref={boxRight} className="image-profile" style={{ backgroundImage: `url('/image/profile.jpg')` }}></div>
