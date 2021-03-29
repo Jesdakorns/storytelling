@@ -79,6 +79,9 @@ const useStyles = makeStyles({
         },
         '& .btn-resume': {
             background: 'linear-gradient(to right, #743ad5 0%, #d53a9d 100%)'
+        },
+        '& ._content':{
+            fontSize: '16px'
         }
 
     }
@@ -179,7 +182,7 @@ export default function about() {
                         <div className="left" ref={boxLeft}>
                             <h3 className="title">Hi, Mr.Jesdakorn Saelor</h3>
                             <p>Web developer</p>
-                            <p>  I’m a gra duate in the faculty of Informatics, Software Engineering Major at Burapha University. I have experience writing a web application with HTML, PHP, CSS, SQL, JavaScript and developing web application the format MVC.</p>
+                            <p className="_content">  I’m a gra duate in the faculty of Informatics, Software Engineering Major at Burapha University. I have experience writing a web application with HTML, PHP, CSS, SQL, JavaScript and developing web application the format MVC.</p>
                             <a href="/file/Resume_Jesdakorn_Saelor.pdf" download ><Button className="resume-m btn-resume" size="large" variant="contained" color="primary">Resume</Button></a>
                             <a href="/file/Transcript_Jesdakorn_Saelor.pdf" download><Button variant="outlined" size="large" >Transcript</Button></a>
                         </div>
