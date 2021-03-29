@@ -108,6 +108,7 @@ const useStyles = makeStyles({
                     overflow: 'scroll',
                     background: color.white,
                     zIndex: '999',
+                    paddingBottom: '50px',
                     // position: "fixed",
                     flexDirection: 'column',
                     width: '100%',
