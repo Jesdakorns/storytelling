@@ -90,7 +90,7 @@ const useStyles = makeStyles({
                     fontSize: '16px',
                     ['@media (max-width: 970px)']: {
                         '& div':{
-                            margin: '50px 0px'
+                            padding: '50px 0px'
                         }
                  
                     }
