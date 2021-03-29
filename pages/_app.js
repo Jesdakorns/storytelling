@@ -81,7 +81,8 @@ function MyApp(props) {
                font-family: "Prompt", sans-serif;
                background: #686868;
             }
-            .__main {
+            ._main {
+               height: "100vh";
                height: calc(var(--vh, 1vh) * 100);
             }
             .react-viewer-close {
