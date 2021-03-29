@@ -105,6 +105,10 @@ function MyApp(props) {
             }
             #__next {
                overflow: hidden !important;
+               position: relative;
+            }
+            #__next.active {
+               position: fixed;
             }
             * {
                box-sizing: border-box;

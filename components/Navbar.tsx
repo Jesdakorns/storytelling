@@ -1,5 +1,5 @@
 import { Container, makeStyles } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import color from '../src/color';
 import Link from '../components/Link';
 import { useRouter } from 'next/router';
@@ -51,7 +51,8 @@ const useStyles = makeStyles({
                 position: "fixed",
                 flexDirection: 'column',
                 width: '100%',
-                height: '100vh',
+                // height: '100vh',
+                height: 'calc(var(--vh, 1vh) * 100)',
                 left: 0,
                 top: 0,
                 
@@ -121,7 +122,13 @@ export default function Navbar() {
     const router = useRouter();
 
     const [open, setOpen] = useState(false)
-
+    useEffect(() => {
+      if(open){
+        document.getElementById('__next').classList.add('active')
+      }else{
+        document.getElementById('__next').classList.remove('active')
+      }
+    }, [open])
     return (
         <React.Fragment>
             <div className={classes.navbar}>
