@@ -29,7 +29,7 @@ function MyApp(props) {
 
             <meta
                name="viewport"
-               content="minimum-scale=1, initial-scale=1, width=device-width , viewer-fit=cover"
+               content="minimum-scale=1, initial-scale=1.0, width=device-width , viewport-fit=cover"
             />
             <link rel="icon" href="/image/icon-bowser.png"></link>
             <link
