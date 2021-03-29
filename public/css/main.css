@@ -38,6 +38,7 @@
   border-right: 3px solid !important;
   padding-left: 0 !important;
   border-left: 0;
+  border-bottom: 0;
 }
 
 .timeline .item-timeline:nth-child(odd):before {
