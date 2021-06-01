@@ -121,9 +121,15 @@ export const loadStoryRecommend = () => async (dispatch, subscribe) => {
     return subscribe({ type: 'STORY_RECOMMEND', payload: items })
 }
 
-export const loadStory = () => async (dispatch, subscribe) => {
-    const items = [
-        {
+export const loadStory = (page) => async (dispatch, subscribe) => {
+    console.log('page: ', page);
+
+    const items = {
+        data:{
+            totle: 10,
+            
+        },
+        item: [{
             id: 1,
             title: 'Black Genuine Leather Bags.',
             image: 'https://picsum.photos/800/600?random=1',
@@ -174,12 +180,12 @@ export const loadStory = () => async (dispatch, subscribe) => {
             image: 'https://picsum.photos/800/600?random=10',
         },
         {
-            id: 11 ,
+            id: 11,
             title: 'Black Genuine Leather Bags.',
             image: 'https://picsum.photos/800/600?random=11',
         },
         {
-            id: 12 ,
+            id: 12,
             title: 'Black Genuine Leather Bags.',
             image: 'https://picsum.photos/800/600?random=12',
         },
@@ -194,56 +200,56 @@ export const loadStory = () => async (dispatch, subscribe) => {
             image: 'https://picsum.photos/800/600?random=14',
         },
         {
-            id: 15 ,
+            id: 15,
             title: 'Black Genuine Leather Bags.',
             image: 'https://picsum.photos/800/600?random=15',
         },
         {
-            id: 16 ,
+            id: 16,
             title: 'Black Genuine Leather Bags.',
             image: 'https://picsum.photos/800/600?random=16',
         },
         {
-            id: 17 ,
+            id: 17,
             title: 'Black Genuine Leather Bags.',
             image: 'https://picsum.photos/800/600?random=17',
         },
         {
-            id: 18 ,
+            id: 18,
             title: 'Black Genuine Leather Bags.',
             image: 'https://picsum.photos/800/600?random=18',
         },
         {
-            id: 19 ,
+            id: 19,
             title: 'Black Genuine Leather Bags.',
             image: 'https://picsum.photos/800/600?random=19',
         },
         {
-            id: 20 ,
+            id: 20,
             title: 'Black Genuine Leather Bags.',
             image: 'https://picsum.photos/800/600?random=20',
         },
         {
-            id: 21 ,
+            id: 21,
             title: 'Black Genuine Leather Bags.',
             image: 'https://picsum.photos/800/600?random=21',
         },
         {
-            id: 22 ,
+            id: 22,
             title: 'Black Genuine Leather Bags.',
             image: 'https://picsum.photos/800/600?random=22',
         },
         {
-            id: 23 ,
+            id: 23,
             title: 'Black Genuine Leather Bags.',
             image: 'https://picsum.photos/800/600?random=23',
         },
         {
-            id: 24 ,
+            id: 24,
             title: 'Black Genuine Leather Bags.',
             image: 'https://picsum.photos/800/600?random=24',
-        }
-    ];
+        }]
+    };
     dispatch({ type: 'STORYS', payload: items })
     return subscribe({ type: 'STORYS', payload: items })
 }

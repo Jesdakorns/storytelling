@@ -21,7 +21,12 @@ const initialState = {
     trendys: [],
     rating: [],
     storyRecommend: [],
-    story: [],
+    story: {
+        data: {
+            totle: 0
+        },
+        item: []
+    },
 };
 
 const productsReducer = (state = initialState, action) => {

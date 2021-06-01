@@ -5,6 +5,7 @@ import BoxLogo from '../components/BoxLogo';
 import Footer from '../components/Footer';
 import Carousel from 'react-grid-carousel'
 import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
+import Cookies from 'js-cookie';
 import Pagination from '@material-ui/lab/Pagination';
 import Typography from '@material-ui/core/Typography';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -73,7 +74,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 flexDirection: 'column',
             },
             '& .btn-filter-products-mobile ': {
-              
+
                 marginBottom: '30px',
                 display: 'none',
                 alignItems: 'center',
@@ -100,7 +101,9 @@ const useStyles = makeStyles((theme: Theme) =>
 const storys = ({ state, loadRating, loadStory }) => {
     const classes = useStyles();
     const router = useRouter();
-    const { category } = router.query;
+    const { category, page } = router.query;
+
+
     const [stateC, setStateC] = useState(
         [
             { id: 1, value: "category", isChecked: false },
@@ -109,6 +112,8 @@ const storys = ({ state, loadRating, loadStory }) => {
             { id: 4, value: "grap", isChecked: false }
         ]
     );
+    const [filter, setFilter] = useState(false);
+    const [v_page, setPage] = useState(1);
     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
 
     const handleDateChange = (date) => {
@@ -132,27 +137,25 @@ const storys = ({ state, loadRating, loadStory }) => {
 
     useEffect(() => {
         loadRating();
-        loadStory();
+        loadStory(v_page);
+    }, [v_page]);
 
-
-    }, []);
     useEffect(() => {
-        console.log(state);
-    })
-    // const handleChange = (event) => {
-    //     setCategory({ state, [event.target.name]: event.target.checked });
-    // };
+        setPage(isNaN(Number(page)) ? 1 : Number(page));
+    }, [page])
 
-    const [filter, setFilter] = useState(false);
-    const [page, setPage] = useState(1);
+
     const handleChange = (event, value) => {
 
-
+        router.push({
+            pathname: `/storys`, query: { page: value }
+        })
+        // Cookies.set('page', value);
         setPage(value);
     };
     const clickFilter = () => {
-        console.log(!filter);
-        
+
+
         setFilter(!filter);
     }
     return (
@@ -234,7 +237,7 @@ const storys = ({ state, loadRating, loadStory }) => {
                         <Grid item xs={12} md={9} >
                             <Container fixed>
                                 <Grid container spacing={3} >
-                                    {state.story.map((value, index) =>
+                                    {state.story.item.map((value, index) =>
                                         <Grid item xs={12} sm={6} md={4} lg={3} key={value.id}>
                                             <div className="box-image-story" style={{ backgroundImage: `url('${value.image}')` }}>  <Chip className="chip" label="Basic" /></div>
                                             <div className="text-name-story text-center">{value.title}</div>
@@ -243,13 +246,13 @@ const storys = ({ state, loadRating, loadStory }) => {
 
                                     )}
                                 </Grid>
-                               
+
 
                             </Container>
                             <div className="box-pagination">
-                                <Pagination count={11}  defaultPage={1} page={page} onChange={handleChange}/>
-                                  
-                                </div>
+                                <Pagination count={state.story.data.totle} defaultPage={1} page={v_page} onChange={handleChange} />
+
+                            </div>
                         </Grid>
 
                     </Grid>
