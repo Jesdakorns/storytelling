@@ -1,7 +1,9 @@
 const color = {
     main: '#000000',
-    gray: '#686868',
-    light: '#B6B6B6',
+    gray: '#637e89',
+    gray500: '#6B7280',
+    gray600: '#4B5563',
+    light: '#b7bbb9',
     white: '#FFFFFF',
     
 }

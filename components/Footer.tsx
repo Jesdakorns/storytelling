@@ -1,77 +1,101 @@
-import { Container, makeStyles } from '@material-ui/core';
-import React, { useState } from 'react';
-import color from '../src/color';
+
+import { Container, Grid } from '@material-ui/core'
+import React, { useEffect, useState } from 'react'
 import Link from '../components/Link';
-import { useRouter } from 'next/router';
+import router from 'next/router';
+import anime from "animejs";
+import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
+import color from "../src/color";
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            '& #footer': {
+                width: '100%',
+                minHeight: '300px',
+                backgroundColor: color.light,
+                '& .box-footer': {
+                    color: color.gray600,
+                    padding: '70px 20px',
+                    '& .text-title': {
+                        fontWeight: 'bold'
+                    }
+                }
+            },
+            '& .copyright': {
+                padding: '10px 0'
+            },
+            '& .box-icon': {
+                fontSize: '1.3rem',
+                marginRight: '10px',
+                width: '20px',
+            },
+            '& .box-follow': {
+                display: 'flex',
 
-const useStyles = makeStyles({
-    footer: {
-        backgroundColor: color.gray,
-        color: color.white,
-        padding: '30px',
-        // border: `1px solid ${color.gray}`,
-        '& .box-footer': {
-            textAlign: 'center',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
-
-        '& .box-icon': {
-            border: `2px solid ${color.light}`,
-            width: '50px',
-            height: '50px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            fontSize: '25px',
-            borderRadius: '999px',
-            color: color.light,
-            marginRight: '10px'
-        },
-        '& .box-social': {
-            display: 'flex',
-            justifyContent: 'center',
-        },
-        '& .dr':{
-    
-            height: '5px',
-            background: color.white,
-            margin: '0px 135px',
-            ['@media (max-width: 400px)  and (orientation: portrait)']: {
-                margin: '0px 105px',
             }
         }
-    }
-
-
-});
+    })
+);
 export default function Footer() {
     const classes = useStyles();
-    const router = useRouter();
+    const [YY, setYY] = useState(0);
+    useEffect(() => {
+        var d = new Date();
+        console.log(d.getFullYear());
 
-    const [open, setOpen] = useState(false)
-
+        setYY(d.getFullYear());
+    }, [])
     return (
-        <React.Fragment>
-            <div className={classes.footer}>
+        <div className={classes.root}>
+
+            <section id="footer">
                 <Container fixed>
                     <div className="box-footer">
-                        <div>
-                            <h3>FOLLOW US</h3>
-                            <div className="dr"></div>
-                            <p>Tel : 088-639-0193,  E-Mail : Jesdakorns@hotmail.com </p>
-                            <div className="box-social">
-                            <a href="https://www.facebook.com/trunk.noom" target="_blank"><div className="box-icon"><i className="fab fa-facebook-square"></i></div></a> 
-                            <a href="https://github.com/Jesdakorns" target="_blank"><div className="box-icon"><i className="fab fa-github-alt"></i></div></a> 
-                              
-                            </div>
-                        </div>
-                    </div>
-                </Container>
-            </div>
+                        <Grid container spacing={3} >
 
-        </React.Fragment>
+                            <Grid item xs={12} md={3} >
+                                <h3 className="text-title">Storytelling</h3>
+                            </Grid>
+                            <Grid item xs={12} md={3} >
+                                <h5 className="text-title mb-3">Quick Links</h5>
+                                <Link to="/" style=""><p>Home</p></Link>
+                            </Grid>
+                            <Grid item xs={12} md={3} >
+                                <h5 className="text-title mb-3">Information</h5>
+                                <Link to="/" style=""><p>Contact</p></Link>
+                            </Grid>
+                            <Grid item xs={12} md={3} >
+                                <h5 className="text-title mb-3">Follow Us</h5>
+                                <div className="box-follow">
+
+                                    <i className="box-icon">
+                                        <Link to="/" style="">
+                                            <i className="fab fa-facebook-square"></i>
+                                        </Link>
+                                    </i>
+
+                                    <i className="box-icon">
+                                        <Link to="/" style="">
+                                            <i className="fab fa-instagram"></i>
+                                        </Link>
+                                    </i>
+
+                                </div>
+
+
+                            </Grid>
+
+
+                        </Grid>
+
+                    </div>
+
+                </Container>
+            </section>
+            <Container fixed>
+                <div className="copyright">Copyright © {YY} Storytelling - All Rights Reserved</div>
+            </Container>
+        </div>
     )
 }
