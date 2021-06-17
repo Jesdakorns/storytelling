@@ -27,6 +27,7 @@ const initialState = {
         },
         item: []
     },
+
 };
 
 const productsReducer = (state = initialState, action) => {
@@ -46,20 +47,10 @@ const productsReducer = (state = initialState, action) => {
                 ...state,
                 story: action.payload,
             };
-        case "PRODUCTS":
-            return {
-                ...state,
-                products: action.payload,
-            };
-        case "CATEGORY_PRODUCTS":
+        case "CATEGORYS":
             return {
                 ...state,
                 categorys: action.payload,
-            };
-        case "TRENDYS_PRODUCTS":
-            return {
-                ...state,
-                trendys: action.payload,
             };
         default:
             return { ...state };

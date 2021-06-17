@@ -14,7 +14,7 @@ import {
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { connect } from 'react-redux';
-import { loadRating, loadStory } from './../store/actions/productsAction';
+import { loadCategory, loadStory } from './../store/actions/productsAction';
 import { Checkbox, Chip, Container, FormControlLabel, Grid } from '@material-ui/core';
 import router, { useRouter } from 'next/router';
 
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
             '& .box-category': {
                 display: 'flex',
                 flexDirection: 'column',
-                ['@media (max-width: 800px) ']: {
+                ['@media (max-width: 959px) ']: {
                     maxHeight: '0px',
                     overflow: 'hidden',
                     transition: 'max-height 0.15s ease-out',
@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 color: '#222!important',
                 backgroundColor: 'transparent!important',
                 border: '1px solid#ededed!important',
-                ['@media (max-width: 800px) ']: {
+                ['@media (max-width: 959px) ']: {
                     display: 'flex',
                     width: '300px',
                 },
@@ -98,61 +98,40 @@ const useStyles = makeStyles((theme: Theme) =>
         }
     })
 );
-const storys = ({ state, loadRating, loadStory }) => {
+const storys = ({ state, loadCategory, loadStory }) => {
     const classes = useStyles();
     const router = useRouter();
     const { category, page } = router.query;
-
-
-    const [stateC, setStateC] = useState(
-        [
-            { id: 1, value: "category", isChecked: false },
-            { id: 2, value: "apple", isChecked: false },
-            { id: 3, value: "mango", isChecked: false },
-            { id: 4, value: "grap", isChecked: false }
-        ]
-    );
     const [filter, setFilter] = useState(false);
     const [v_page, setPage] = useState(1);
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+    const [v_category, setCategory] = useState('default');
+    // const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
+    // const handleDateChange = (date) => {
+    //     setSelectedDate(date);
+    // };
 
-    const handleCheckChieldElement = (event) => {
-        let fruites = stateC
-        let totle = 0;
-        let selectTopping = []
-        console.log(event.target.checked);
-        // router.push({
-        //     pathname: `/storys`, query: { category: event.target.value }
-        // })
-        // setStateC({ state, value: event.target.checked });
-        // fruites.forEach(fruite => { fruite.value === event.target.value ? (fruite.isChecked = event.target.checked, setStateC(fruites)) : '' })
-        // fruites.forEach(fruite => { fruite.isChecked ? (totle += fruite.price, selectTopping.push({ id: fruite.id, value: fruite.value })) : '' });
-        // setSelectTopping({ value: selectTopping, totle: totle, comment: SelectTopping.comment })
+    const handleCheckCategory = (event) => {
+        setCategory(event.target.value)
     }
-
-
-    useEffect(() => {
-        loadRating();
-        loadStory(v_page);
-    }, [v_page]);
-
-    useEffect(() => {
-        setPage(isNaN(Number(page)) ? 1 : Number(page));
-    }, [page])
-
-
-    const handleChange = (event, value) => {
-
-        router.push({
-            pathname: `/storys`, query: { page: value }
-        })
-        // Cookies.set('page', value);
+    const handleChangePage = (event, value) => {
         setPage(value);
     };
+
+
+    useEffect(() => {
+        loadStory(v_page, v_category);
+        loadCategory();
+    }, []);
+
+    useEffect(() => {
+        router.push({
+            pathname: `/storys`, query: { page: v_page, category: v_category }
+        })
+        loadStory(v_page, v_category);
+    }, [v_page, v_category])
+
+
     const clickFilter = () => {
 
 
@@ -178,23 +157,30 @@ const storys = ({ state, loadRating, loadStory }) => {
 
                                 <div className={`box-category ${filter && 'open'}`}>
                                     <h5>category</h5>
-                                    {
-                                        stateC.map((fruite, index) => {
-                                            return (
-                                                <div className="box-checked" key={fruite.id}>
-                                                    <FormControlLabel
-                                                        className="form-control-checked mb-0 ml-3"
+                                    <div className="group">
+                                        {
+                                            state.categorys.map((fruite, index) => {
+                                                return (
+                                                    <div key={fruite.id}>
+                                                        <input type="radio" name="rb" id={`${fruite.value}`} onChange={handleCheckCategory} value={fruite.isChecked} checked={v_category === fruite.isChecked} />
+                                                        <label htmlFor={`${fruite.value}`}>{fruite.value}</label>
+                                                    </div>
 
-                                                        control={<>
-                                                            <Checkbox color="primary" onChange={handleCheckChieldElement} value={fruite.value} />
-                                                        </>}
-                                                        label={fruite.value}
-                                                    />
+                                                    // <div className="box-checked" key={fruite.id}>
+                                                    //     <FormControlLabel
+                                                    //         className="form-control-checked mb-0 ml-3"
 
-                                                </div>
-                                            )
-                                        })
-                                    }
+                                                    //         control={<>
+                                                    //             <Checkbox color="primary" onChange={handleCheckChieldElement} value={fruite.value} />
+                                                    //         </>}
+                                                    //         label={fruite.value}
+                                                    //     />
+
+                                                    // </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
                                 </div>
                             </div>
                             {/* <div className="box-yeart">
@@ -238,11 +224,13 @@ const storys = ({ state, loadRating, loadStory }) => {
                             <Container fixed>
                                 <Grid container spacing={3} >
                                     {state.story.item.map((value, index) =>
-                                        <Grid item xs={12} sm={6} md={4} lg={3} key={value.id}>
-                                            <div className="box-image-story" style={{ backgroundImage: `url('${value.image}')` }}>  <Chip className="chip" label="Basic" /></div>
-                                            <div className="text-name-story text-center">{value.title}</div>
 
+                                        <Grid item xs={12} sm={6} md={4} lg={3} key={value.id}>
+                                            <Link to={`/story/${value.id}`} style="">  <div className="box-image-story" style={{ backgroundImage: `url('${value.image}')` }}>  <Chip className="chip" label={value.categorys} /></div>
+                                                <div className="text-name-story text-center">{value.title}</div>
+                                            </Link>
                                         </Grid>
+
 
                                     )}
                                 </Grid>
@@ -250,7 +238,7 @@ const storys = ({ state, loadRating, loadStory }) => {
 
                             </Container>
                             <div className="box-pagination">
-                                <Pagination count={state.story.data.totle} defaultPage={1} page={v_page} onChange={handleChange} />
+                                <Pagination count={state.story.data.totle} defaultPage={1} page={v_page} onChange={handleChangePage} />
 
                             </div>
                         </Grid>
@@ -268,4 +256,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { loadRating, loadStory })(storys);
+export default connect(mapStateToProps, { loadCategory, loadStory })(storys);

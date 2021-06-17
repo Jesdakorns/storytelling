@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 margin: '25px 0',
                 '& .box-image': {
                     position: 'relative',
-                    margin: '5px',
+
                     width: '100%',
                     height: '250px',
                     backgroundRepeat: 'no-repeat',
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function useWindowSize() {
     const [size, setSize] = useState([0, 0]);
-    useLayoutEffect(() => {
+    useEffect(() => {
         function updateSize() {
             setSize([window.innerWidth, window.innerHeight]);
         }
@@ -114,10 +114,12 @@ const Index = ({ state, loadRating, loadStoryRecommend }) => {
                 <Container fixed>
                     <Grid container spacing={3} justify="center">
                         {state.storyRecommend.map((value, index) =>
-                            <Grid item xs={12} sm={6} md={3} lg={3} key={value.id}>
-                                <div className="box-image" style={{ backgroundImage: `url('${value.image}')` }}>  <Chip className="chip" label="Basic" /></div>
-                                <div className="text-name text-center">{value.title}</div>
 
+                            <Grid item xs={12} sm={6} md={3} lg={3} key={value.id}>
+                                <Link to={`/story/${value.id}`} style="">
+                                    <div className="box-image" style={{ backgroundImage: `url('${value.image}')` }}>  <Chip className="chip" label="Basic" /></div>
+                                    <div className="text-name text-center">{value.title}</div>
+                                </Link>
                             </Grid>
 
                         )}
@@ -128,7 +130,7 @@ const Index = ({ state, loadRating, loadStoryRecommend }) => {
                 </Container>
             </div>
             <Footer></Footer>
-        </div>
+        </div >
     )
 }
 

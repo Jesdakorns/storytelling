@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             '& #header': {
+                userSelect: 'none',
                 background: '#ffffff',
                 height: '50px',
                 boxShadow: '0 1px 1px 0 rgba(0, 0, 0, 0.06)',
@@ -35,7 +36,7 @@ export default function AppBar() {
             <section id="header">
                 <Container fixed>
                     <div className="box-header">
-                        <Link to="/auth" style="">Login / Register</Link>
+                        <Link to="/auth/login" style="">Login</Link>&nbsp; / &nbsp;<Link to="/auth/register" style="">Register</Link>
                     </div>
                 </Container>
             </section>
