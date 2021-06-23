@@ -1,3 +1,97 @@
+const axios = require('axios');
+import getConfig from 'next/config'
+const env = getConfig().publicRuntimeConfig;
+
+
+export const loginStorytelling = (email, password) => async (dispatch, subscribe) => {
+    console.log('email', email);
+    console.log('password', password);
+    console.log('env', env);
+
+    let items = 'false';
+    await axios.post(`${env.API_HOST}auth/signin`, {
+        email: email,
+        password: password
+    }).then(function (response) {
+
+        if (response.data.user.token != null) {
+            localStorage.setItem('ls-u', response.data.user.token);
+            // window.location.replace("/");
+        } else {
+
+        }
+
+        console.log(response);
+    }).catch(function (error) {
+
+        console.log(error);
+    });
+
+
+    dispatch({ type: 'LOGIN', payload: items })
+    return subscribe({ type: 'LOGIN', payload: items })
+}
+
+export const logoutStorytelling = (email, password) => async (dispatch, subscribe) => {
+
+    // console.log('email', email);
+    // console.log('password', password);
+    // console.log('env', env);
+    let items = {};
+    await axios.delete(`${env.API_HOST}auth/signout`).then(function (response) {
+
+        localStorage.removeItem('ls-u');
+        console.log("logout ", response);
+        items = {
+            isAuth: false,
+            user: {
+                id: '',
+                image: '',
+                email: '',
+                name: '',
+                phone: '',
+                sex: '',
+                address: ''
+
+            }
+        }
+    }).catch(function (error) {
+
+        console.log(error);
+    });
+
+
+    dispatch({ type: 'LOGOUT', payload: items })
+    return subscribe({ type: 'LOGOUT', payload: items })
+}
+
+export const getUser = () => async (dispatch, subscribe) => {
+
+    console.log("getUser");
+    let items = {}
+    await axios.get(`${env.API_HOST}auth/profile`, {
+        headers: {
+            'Authorization': `bearer ${localStorage.getItem('ls-u')}`
+        }
+    }).then((res) => {
+        // console.log(res.data.user)
+        if (res.data.status.success) {
+            items = { isAuth: true, user: res.data.user }
+        } else {
+
+        }
+
+    }).catch((error) => {
+        // console.error(error)
+        // items = { isAuth: false }
+    })
+    // console.log("items", items);
+
+    dispatch({ type: 'GET_USER', payload: items })
+    return subscribe({ type: 'GET_USER', payload: items })
+}
+
+
 export const loadRating = () => async (dispatch, subscribe) => {
     const items = [
         {

@@ -1,1 +1,10 @@
-POST https://reqres.in/api/users
+POST http://127.0.0.1:8000/api/auth/signin
+Content-Type: application/json
+
+{
+    "email":"jesdakorns@hotmail.com",
+    "password":"cheenasks1996"
+}
+
+################################
+GET http://127.0.0.1:8000/api/auth/profile

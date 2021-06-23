@@ -28,10 +28,41 @@ const initialState = {
         item: []
     },
 
+    auth: {
+        isAuth: false,
+        user: {
+            id: '',
+            image: '',
+            email: '',
+            name: '',
+            phone: '',
+            sex: '',
+            address: ''
+
+        }
+    }
+
+
+
+
 };
 
 const productsReducer = (state = initialState, action) => {
     switch (action.type) {
+        case "GET_USER":
+            return {
+                ...state,
+                auth: action.payload,
+            };
+        case "LOGIN":
+            return {
+                ...state,
+            };
+        case "LOGOUT":
+            return {
+                ...state,
+                auth: action.payload,
+            };
         case "RATING":
             return {
                 ...state,

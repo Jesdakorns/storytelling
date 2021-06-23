@@ -5,6 +5,8 @@ import {useStore} from "../store";
 import {Provider} from "react-redux";
 import { ThemeProvider } from "@material-ui/core/styles";
 import theme from "../src/theme";
+
+
 function MyApp(props) {
    const {Component, pageProps} = props;
    const store = useStore(pageProps.initialReduxState);

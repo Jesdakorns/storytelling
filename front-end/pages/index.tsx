@@ -10,6 +10,10 @@ import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/sty
 import { connect } from 'react-redux';
 import { loadRating, loadStoryRecommend } from './../store/actions/productsAction';
 
+import getConfig from 'next/config'
+import { Skeleton } from '@material-ui/lab';
+const env = getConfig().publicRuntimeConfig;
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -41,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
             '& .box-recommend': {
                 '& .box-image': {
                     position: 'relative',
-                    margin: '5px',
+                    margin: '5px 0',
                     width: '100%',
                     height: '250px',
                     backgroundRepeat: 'no-repeat',
@@ -65,6 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
 function useWindowSize() {
     const [size, setSize] = useState([0, 0]);
     useEffect(() => {
+
         function updateSize() {
             setSize([window.innerWidth, window.innerHeight]);
         }
@@ -80,16 +85,18 @@ const Index = ({ state, loadRating, loadStoryRecommend }) => {
 
 
     useEffect(() => {
+        // console.log(env)
         loadRating();
         loadStoryRecommend();
 
 
     }, []);
     useEffect(() => {
-        console.log(state);
+
+        // console.log(state);
     })
     const [width, height] = useWindowSize();
-    console.log(width, height);
+    // console.log(width, height);
 
     return (
         <div className={classes.root}>
@@ -113,9 +120,12 @@ const Index = ({ state, loadRating, loadStoryRecommend }) => {
                 <h3 className="text-center text-title">Recommend</h3>
                 <Container fixed>
                     <Grid container spacing={3} justify="center">
+
                         {state.storyRecommend.map((value, index) =>
 
                             <Grid item xs={12} sm={6} md={3} lg={3} key={value.id}>
+                                {/* <Skeleton className="box-image" variant="pulse" />
+                                <Skeleton className="text-name text-center" variant="text"/> */}
                                 <Link to={`/story/${value.id}`} style="">
                                     <div className="box-image" style={{ backgroundImage: `url('${value.image}')` }}>  <Chip className="chip" label="Basic" /></div>
                                     <div className="text-name text-center">{value.title}</div>
@@ -129,6 +139,7 @@ const Index = ({ state, loadRating, loadStoryRecommend }) => {
                     </div>
                 </Container>
             </div>
+
             <Footer></Footer>
         </div >
     )

@@ -42,7 +42,7 @@ export default function Footer() {
     const [YY, setYY] = useState(0);
     useEffect(() => {
         var d = new Date();
-        console.log(d.getFullYear());
+        // console.log(d.getFullYear());
 
         setYY(d.getFullYear());
     }, [])
