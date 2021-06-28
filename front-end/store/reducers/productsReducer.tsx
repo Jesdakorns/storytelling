@@ -1,4 +1,10 @@
+let local;
+if (typeof(Storage) !== "undefined") {
+    // Store
+    local = localStorage.getItem("ls-u") || ''
 
+
+}
 const initialState = {
     product: {
         title: '',
@@ -16,6 +22,9 @@ const initialState = {
             list: []
         }
     },
+    content:{
+
+    },
     products: [],
     categorys: [],
     trendys: [],
@@ -23,11 +32,16 @@ const initialState = {
     storyRecommend: [],
     story: {
         data: {
-            totle: 0
+            last_page: 0
         },
         item: []
     },
-
+    my_story: {
+        data: {
+            last_page: 0
+        },
+        item: []
+    },
     auth: {
         isAuth: false,
         user: {
@@ -40,7 +54,8 @@ const initialState = {
             address: ''
 
         }
-    }
+    },
+    localStorage: local
 
 
 
@@ -49,12 +64,21 @@ const initialState = {
 
 const productsReducer = (state = initialState, action) => {
     switch (action.type) {
+        case "GET_CONTENT":
+            return {
+                ...state,
+                content: action.payload,
+            };
         case "GET_USER":
             return {
                 ...state,
                 auth: action.payload,
             };
         case "LOGIN":
+            return {
+                ...state,
+            };
+        case "REGISTER":
             return {
                 ...state,
             };
@@ -77,6 +101,11 @@ const productsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 story: action.payload,
+            };
+        case "MY_STORYS":
+            return {
+                ...state,
+                my_story: action.payload,
             };
         case "CATEGORYS":
             return {

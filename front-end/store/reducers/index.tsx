@@ -4,5 +4,6 @@ import productsReducer from "./productsReducer";
 
 
 export const reducers = combineReducers({
-  data: productsReducer,
+  reducer: productsReducer,
 });
+

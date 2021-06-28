@@ -7,12 +7,16 @@ import Footer from '../components/Footer';
 import Carousel from 'react-grid-carousel'
 import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { loadRating, loadStoryRecommend } from './../store/actions/productsAction';
 
 import getConfig from 'next/config'
 import { Skeleton } from '@material-ui/lab';
 const env = getConfig().publicRuntimeConfig;
+
+
+import * as cookie from 'cookie'
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
                         background: 'linear-gradient(to top, #0000007a, #0000005e, #0000)',
                         borderRadius: ' 0 0 20px 20px',
                         userSelect: 'none',
+                       
                     }
                 }
             },
@@ -61,6 +66,11 @@ const useStyles = makeStyles((theme: Theme) =>
             '& .text-title': {
                 fontWeight: 'revert',
             },
+            '& .text-title-story': {
+                overflow: 'hidden',
+                height: '75px'
+            },
+           
 
         }
     })
@@ -80,35 +90,36 @@ function useWindowSize() {
     return size;
 }
 
-const Index = ({ state, loadRating, loadStoryRecommend }) => {
+const Index = ({ dataServer }) => {
     const classes = useStyles();
-
+    const counter = useSelector((state) => state['reducer'])
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        // console.log(env)
-        loadRating();
-        loadStoryRecommend();
+        console.log(dataServer)
+        dispatch(loadRating());
+        dispatch(loadStoryRecommend());
 
 
     }, []);
     useEffect(() => {
 
-        // console.log(state);
-    })
+        console.log(dataServer);
+    },[dataServer])
     const [width, height] = useWindowSize();
     // console.log(width, height);
 
     return (
         <div className={classes.root}>
-            <AppBar></AppBar>
+            <AppBar keyCookie={dataServer}></AppBar>
             <BoxLogo></BoxLogo>
             <div className="box-rating">
                 <h3 className="text-center text-title">Top 14 user</h3>
                 <Container fixed>
                     <Carousel cols={width >= 1282 ? 7 : width >= 959 ? 5 : 3} rows={1} gap={10} >
-                        {state.rating.map((value, index) =>
+                        {counter.rating.map((value, index) =>
                             <Carousel.Item key={value.id}>
-                                <div className="box-image" style={{ backgroundImage: `url('${value.image}')` }}>
+                                <div className="box-image" style={{ backgroundImage: value.image ? `url('${env.API_BASE}${value.image}')` : `url('/assets/images/coverAvatar.png')` }}>
                                     <div className="text-name">{value.name}</div>
                                 </div>
                             </Carousel.Item>
@@ -121,14 +132,14 @@ const Index = ({ state, loadRating, loadStoryRecommend }) => {
                 <Container fixed>
                     <Grid container spacing={3} justify="center">
 
-                        {state.storyRecommend.map((value, index) =>
+                        {counter.storyRecommend.map((value, index) =>
 
                             <Grid item xs={12} sm={6} md={3} lg={3} key={value.id}>
                                 {/* <Skeleton className="box-image" variant="pulse" />
                                 <Skeleton className="text-name text-center" variant="text"/> */}
                                 <Link to={`/story/${value.id}`} style="">
-                                    <div className="box-image" style={{ backgroundImage: `url('${value.image}')` }}>  <Chip className="chip" label="Basic" /></div>
-                                    <div className="text-name text-center">{value.title}</div>
+                                    <div className="box-image" style={{ backgroundImage: `url('${env.API_BASE}${value.coverImage}')` }}>  <Chip className="chip" label={value.description} /></div>
+                                    <div className="text-title-story text-center"><p className="line-clamp">{value.title}</p></div>
                                 </Link>
                             </Grid>
 
@@ -144,11 +155,17 @@ const Index = ({ state, loadRating, loadStoryRecommend }) => {
         </div >
     )
 }
+export async function getServerSideProps(context) {
+    console.log(context);
+    let dataServer = null
+    let c = context.req.headers.cookie
+    if (context.req.headers.cookie) {
+        dataServer = cookie.parse(context.req.headers.cookie);
+    }
 
-const mapStateToProps = (state) => {
     return {
-        state: state.data,
+        props: { dataServer }
     }
 }
 
-export default connect(mapStateToProps, { loadRating, loadStoryRecommend })(Index);
+export default Index;

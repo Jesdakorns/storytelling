@@ -15,11 +15,16 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import Avatar from '@material-ui/core/Avatar';
+import { useCookies } from 'react-cookie';
 
-
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { getUser, logoutStorytelling } from './../store/actions/productsAction';
-import Skeleton from '@material-ui/lab/Skeleton';
+
+
+
+import getConfig from 'next/config'
+const env = getConfig().publicRuntimeConfig;
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         small: {
@@ -58,39 +63,33 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-function AppBar({ state, getUser, logoutStorytelling }) {
+function AppBar({ keyCookie }) {
     const classes = useStyles();
-    const [auth, setAuth] = useState(false);
-  
-    let [loading, setLoading] = useState(true);
-    let [color, setColor] = useState("#ffffff");
-    let [isLo, setisLo] = useState(false);
+    const [cookies, setCookie, removeCookie] = useCookies(['k_user']);
+    const counter = useSelector((state) => state['reducer'])
+    const dispatch = useDispatch()
+
+    const [logout, setLogout] = useState(false)
+
     useEffect(() => {
+        console.log('keyCookie', keyCookie);
 
-    }, [isLo])
+        (async () => {
+            let resGetUser = await dispatch(getUser());
+            await console.log('resGetUser -> ', resGetUser['reducer']);
+
+            if (keyCookie?.k_user && !resGetUser['reducer'].auth.isAuth) {
+                await removeCookie('k_user')
+                await router.push(`/`);
+            }
+
+        })();
+
+    }, [keyCookie])
     useEffect(() => {
-        // if(localStorage.getItem('ls-u')){
-        //     setisLo(true);
-        // }
-        getUser()
+        console.log('Appbar -> ', keyCookie?.k_user);
 
-
-    }, [])
-    useEffect(() => {
-
-        if (!localStorage.getItem('ls-u')) {
-            setLoading(false);
-        } else {
-            setTimeout(() => {
-                setLoading(false);
-            }, 1000)
-        }
-
-
-
-
-
-    }, [state.auth.isAuth])
+    }, [keyCookie])
 
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -99,24 +98,33 @@ function AppBar({ state, getUser, logoutStorytelling }) {
         setOpen((prevOpen) => !prevOpen);
     };
 
-    const handleClose = (event: React.MouseEvent<EventTarget>) => {
-        if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
-            return;
+    const handleClose = (event) => {
+        console.log(event.target.dataset);
+
+        if (event.target.dataset?.to) {
+            router.push(event.target.dataset.to)
         }
 
         setOpen(false);
     };
 
-    // useEffect(() => {
-    //     if (localStorage.getItem('ls-u')) {
-    //         router.push(`/`)
-    //     }
-    // }, [state.auth.isAuth])
     const clickLogout = () => {
         console.log("Logout");
-        logoutStorytelling();
-        
         setOpen(false);
+        // keyCookie = null
+        // setLogout(true)
+
+        (async () => {
+            let resLogout = await dispatch(logoutStorytelling());
+            await console.log('resGetUser -> ', resLogout['reducer']);
+
+            if (!resLogout['reducer'].auth.isAuth) {
+                setLogout(true)
+            }
+
+
+
+        })();
 
     }
 
@@ -136,33 +144,13 @@ function AppBar({ state, getUser, logoutStorytelling }) {
         prevOpen.current = open;
     }, [open]);
 
-    if (loading) {
-
-
-        return (
-            <div className={classes.root}>
-
-                <section id="header">
-                    <Container fixed>
-
-                        <div className="box-header">
-                            <Skeleton width={210} />
-                        </div>
-
-
-                    </Container>
-
-                </section >
-            </div>
-        )
-    }
     return (
         <div className={classes.root}>
 
             <section id="header">
 
                 <Container fixed>
-                    {(state.auth.isAuth ?
+                    {keyCookie?.k_user && !logout ?
                         <div className="box-header">
                             <Button
                                 ref={anchorRef}
@@ -171,8 +159,13 @@ function AppBar({ state, getUser, logoutStorytelling }) {
                                 onClick={handleToggle}
                                 className="box-avatar"
                             >
-                                <Avatar className={classes.small} alt="Profile" src={`${state.auth.user.image ? state.auth.user.image : ''}`}><i className="fas fa-user"></i></Avatar>
-                                <p className="m-0 pl-2">{state.auth.user.name}</p>
+                                {counter?.auth?.user?.image &&
+                                    <Avatar className={classes.small} alt="" src={`${env.API_BASE + counter?.auth?.user?.image}`}>
+                                        {/* <i className="fas fa-user"></i> */}
+                                    </Avatar>
+                                }
+
+                                <p className="m-0 pl-2">{counter?.auth?.user?.name}</p>
                             </Button>
                             <Popper className="menu-click" open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
                                 {({ TransitionProps, placement }) => (
@@ -186,6 +179,7 @@ function AppBar({ state, getUser, logoutStorytelling }) {
                                                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
 
                                                     <MenuItem onClick={handleClose}>My account</MenuItem>
+                                                    <MenuItem onClick={handleClose} data-to="/manage/story">Manage Story</MenuItem>
                                                     <MenuItem onClick={clickLogout}>Logout</MenuItem>
                                                 </MenuList>
                                             </ClickAwayListener>
@@ -193,12 +187,14 @@ function AppBar({ state, getUser, logoutStorytelling }) {
                                     </Grow>
                                 )}
                             </Popper>
-                        </div>
-                        :
+                        </div> :
                         <div className="box-header">
                             <Link to="/auth/login" style="">Login</Link>&nbsp; / &nbsp;<Link to="/auth/register" style="">Register</Link>
                         </div>
-                    )}
+                    }
+
+
+
 
                 </Container>
             </section >
@@ -206,10 +202,4 @@ function AppBar({ state, getUser, logoutStorytelling }) {
     )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        state: state.data,
-    }
-}
-
-export default connect(mapStateToProps, { getUser, logoutStorytelling })(AppBar);
+export default AppBar;

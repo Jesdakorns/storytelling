@@ -122,7 +122,7 @@ class ProfileController extends Controller
                 Image::make($image)->resize(450, 450, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save(public_path('assets/profile_image/') . $nameImage);
-                $pastImage = $this->HOST . '/assets/profile_image/' . $nameImage;
+                $pastImage = '/assets/profile_image/' . $nameImage;
 
                 $user = User::find($id)->update([
                     'name' => $request->name,

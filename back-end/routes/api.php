@@ -16,6 +16,8 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
 });
 Route::group(['prefix' => 'auth', 'namespace' => 'Story'], function () { 
     Route::get('storys', 'StoryController');
+    Route::get('storys/all/type', 'StoryController@type');
+    Route::get('storys/all/list/{limit}/{category}', 'StoryController@list');
     Route::get('storys/all/my', 'StoryController@my');
     Route::get('storys/{id}', 'StoryController@show');
     Route::get('storys/{id}/edit', 'StoryController@edit');

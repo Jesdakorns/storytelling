@@ -13,10 +13,19 @@ import DateFnsUtils from '@date-io/date-fns';
 import {
     KeyboardDatePicker,
 } from '@material-ui/pickers';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { loadCategory, loadStory } from './../store/actions/productsAction';
 import { Checkbox, Chip, Container, FormControlLabel, Grid } from '@material-ui/core';
 import router, { useRouter } from 'next/router';
+
+
+import getConfig from 'next/config'
+import { Skeleton } from '@material-ui/lab';
+const env = getConfig().publicRuntimeConfig;
+
+
+import * as cookie from 'cookie'
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -98,9 +107,12 @@ const useStyles = makeStyles((theme: Theme) =>
         }
     })
 );
-const storys = ({ state, loadCategory, loadStory }) => {
+const storys = ({ dataServer }) => {
     const classes = useStyles();
     const router = useRouter();
+    const counter = useSelector((state) => state['reducer'])
+    const dispatch = useDispatch()
+
     const { category, page } = router.query;
     const [filter, setFilter] = useState(false);
     const [v_page, setPage] = useState(1);
@@ -120,15 +132,15 @@ const storys = ({ state, loadCategory, loadStory }) => {
 
 
     useEffect(() => {
-        loadStory(v_page, v_category);
-        loadCategory();
+        dispatch(loadStory(v_page, v_category));
+        dispatch(loadCategory());
     }, []);
 
     useEffect(() => {
         router.push({
             pathname: `/storys`, query: { page: v_page, category: v_category }
         })
-        loadStory(v_page, v_category);
+        dispatch(loadStory(v_page, v_category));
     }, [v_page, v_category])
 
 
@@ -139,7 +151,7 @@ const storys = ({ state, loadCategory, loadStory }) => {
     }
     return (
         <div className={classes.root}>
-            <AppBar></AppBar>
+            <AppBar keyCookie={dataServer}></AppBar>
             <BoxLogo></BoxLogo>
             <div className="box-content">
                 <Container fixed>
@@ -159,7 +171,7 @@ const storys = ({ state, loadCategory, loadStory }) => {
                                     <h5>category</h5>
                                     <div className="group">
                                         {
-                                            state.categorys.map((fruite, index) => {
+                                            counter.categorys.map((fruite, index) => {
                                                 return (
                                                     <div key={fruite.id}>
                                                         <input type="radio" name="rb" id={`${fruite.value}`} onChange={handleCheckCategory} value={fruite.isChecked} checked={v_category === fruite.isChecked} />
@@ -223,10 +235,10 @@ const storys = ({ state, loadCategory, loadStory }) => {
                         <Grid item xs={12} md={9} >
                             <Container fixed>
                                 <Grid container spacing={3} >
-                                    {state.story.item.map((value, index) =>
+                                    {counter.story.item.map((value, index) =>
 
                                         <Grid item xs={12} sm={6} md={4} lg={3} key={value.id}>
-                                            <Link to={`/story/${value.id}`} style="">  <div className="box-image-story" style={{ backgroundImage: `url('${value.image}')` }}>  <Chip className="chip" label={value.categorys} /></div>
+                                            <Link to={`/story/${value.id}`} style="">  <div className="box-image-story" style={{ backgroundImage: `url('${env.API_BASE}${value.sr_coverImage}')` }}>  <Chip className="chip" label={value.sr_description} /></div>
                                                 <div className="text-name-story text-center">{value.title}</div>
                                             </Link>
                                         </Grid>
@@ -238,7 +250,7 @@ const storys = ({ state, loadCategory, loadStory }) => {
 
                             </Container>
                             <div className="box-pagination">
-                                <Pagination count={state.story.data.totle} defaultPage={1} page={v_page} onChange={handleChangePage} />
+                                <Pagination count={counter.story.last_page} defaultPage={1} page={v_page} onChange={handleChangePage} />
 
                             </div>
                         </Grid>
@@ -250,10 +262,17 @@ const storys = ({ state, loadCategory, loadStory }) => {
         </div>
     )
 }
-const mapStateToProps = (state) => {
+export async function getServerSideProps(context) {
+    console.log(context);
+    let dataServer = null
+    let c = context.req.headers.cookie
+    if (context.req.headers.cookie) {
+        dataServer = cookie.parse(context.req.headers.cookie);
+    }
+
     return {
-        state: state.data,
+        props: { dataServer }
     }
 }
 
-export default connect(mapStateToProps, { loadCategory, loadStory })(storys);
+export default storys;

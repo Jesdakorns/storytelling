@@ -35,6 +35,7 @@ class StoryController extends Controller
     }
     public function __invoke()
     {
+
         $operationType = 'get all storys.';
         // ->select('users.*',DB::raw('sum(sl_like) as sl_like'))->groupBy('sl_userId')->orderby('sl_like', 'DESC')
         // Get all data from the SR_Storys table.
@@ -66,8 +67,8 @@ class StoryController extends Controller
 
                 if ($value->sl_like !== "0") {
                     // echo($countStorysRank);
-                    if ($countStorysRank < 7) {
-                        
+                    if ($countStorysRank < 8) {
+
                         $arrStorysRank[$countStorysRank] = [
                             'id' => $value->id,
                             'title' => $value->sr_title,
@@ -80,7 +81,7 @@ class StoryController extends Controller
                             'updated_at' => $value->updated_at,
                             'countLike' => $value->sl_like
                         ];
-                       $countStorysRank++; 
+                        $countStorysRank++;
                     }
                 }
             }
@@ -89,7 +90,7 @@ class StoryController extends Controller
             foreach ($avatarRank as $key => $value) {
 
                 if ($value->sl_like !== "0") {
-                    if ($countAvatarRank < 10) {
+                    if ($countAvatarRank < 14) {
                         $arrAvatarRank[$countAvatarRank] = [
                             'id' => $value->id,
                             'name' => $value->name,
@@ -128,6 +129,42 @@ class StoryController extends Controller
             ], 200);
         }
     }
+
+    public function type()
+    {
+    }
+    public function list($limit , $category)
+    {
+        $operationType = 'list story.';
+
+        $SR_Storys = SR_Storys::orderBy('id', 'DESC')->paginate($limit);
+        if (count($SR_Storys) > 0) {
+            return response()->json([
+                'status' => [
+                    'success' => true,
+                    'message' => null,
+                    'operationType' => $operationType
+                ],
+                'page' => $limit,
+                'category' => $category,
+                'SR_Storys' => $SR_Storys
+            ],  200);
+        }else{
+            return response()->json([
+                'status' => [
+                    'success' => false,
+                    'message' => null,
+                    'operationType' => $operationType
+                ],
+                'page' => $limit,
+                'category' => $category,
+                'SR_Storys' => null
+            ],  200);
+        }
+    
+    }
+
+
     public function my()
     {
         $this->middleware('auth:api');
@@ -136,11 +173,11 @@ class StoryController extends Controller
 
         if (auth()->user()) {
             // Gets information from the SR_Storys table, where user id is equal to sr_userId.
-            $SR_Storys = SR_Storys::where('sr_userId', '=', auth()->user()->id)->orderBy('id', 'DESC')->get();
+            $SR_Storys = SR_Storys::where('sr_userId', '=', auth()->user()->id)->orderBy('id', 'DESC')->paginate(5);;
             if (count($SR_Storys) > 0) {
                 foreach ($SR_Storys as $key => $value) {
-                    $storys[$key] = [
-                        'id' => $value->id,
+                    $storys[$key]['story'] = [
+                        'id' => $value,
                         'title' => $value->sr_title,
                         'description' => $value->sr_description,
                         'abstract' => $value->sr_abstract,
@@ -150,6 +187,7 @@ class StoryController extends Controller
                         'created_at' => $value->created_at,
                         'updated_at' => $value->updated_at
                     ];
+                 
                 }
                 return response()->json([
                     'status' => [
@@ -157,7 +195,7 @@ class StoryController extends Controller
                         'message' => null,
                         'operationType' => $operationType
                     ],
-                    'storys' => $storys
+                    'storys' =>  $SR_Storys
                 ],  200);
             } else {
                 return response()->json([
@@ -166,7 +204,7 @@ class StoryController extends Controller
                         'message' => 'data not found',
                         'operationType' => $operationType
                     ],
-                    'storys' => []
+                    'storys' => null
                 ],  200);
             }
         } else {
@@ -272,7 +310,7 @@ class StoryController extends Controller
                     Image::make($coverImage)->resize(550, 550, function ($constraint) {
                         $constraint->aspectRatio();
                     })->save(public_path('assets/cover_image/') . $nameCoverImage);
-                    $pastCoverImage = $this->HOST . '/assets/cover_image/' . $nameCoverImage;
+                    $pastCoverImage = '/assets/cover_image/' . $nameCoverImage;
                     $SR_storysId = SR_Storys::insertGetId([
                         'sr_title' => $request->title,
                         'sr_description' => $request->description,
@@ -289,7 +327,7 @@ class StoryController extends Controller
                         Image::make($value)->resize(550, 550, function ($constraint) {
                             $constraint->aspectRatio();
                         })->save(public_path('assets/illustration/') . $nameIllustration);
-                        $pastIllustration = $this->HOST . '/assets/illustration/' . $nameIllustration;
+                        $pastIllustration =  '/assets/illustration/' . $nameIllustration;
                         if ($SR_storysId) {
                             $SI_StorysImageId = SI_StorysImage::insertGetId([
                                 'si_image' => $pastIllustration,
@@ -454,7 +492,7 @@ class StoryController extends Controller
                     Image::make($coverImage)->resize(550, 550, function ($constraint) {
                         $constraint->aspectRatio();
                     })->save(public_path('assets/cover_image/') . $nameCoverImage);
-                    $pastCoverImage = $this->HOST . '/assets/cover_image/' . $nameCoverImage;
+                    $pastCoverImage = '/assets/cover_image/' . $nameCoverImage;
                     if (File::delete(public_path(str_replace($this->HOST, "",  $getSR_Storys->sr_coverImage)))) {
                         $SR_Storys = SR_Storys::find($id)->update([
                             'sr_title' => $request->title,
@@ -486,7 +524,7 @@ class StoryController extends Controller
                         Image::make($value)->resize(550, 550, function ($constraint) {
                             $constraint->aspectRatio();
                         })->save(public_path('assets/illustration/') . $nameIllustration);
-                        $pastIllustration = $this->HOST . '/assets/illustration/' . $nameIllustration;
+                        $pastIllustration = '/assets/illustration/' . $nameIllustration;
 
                         $SI_StorysImageId = SI_StorysImage::insertGetId([
                             'si_image' => $pastIllustration,

@@ -1,15 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import Link from '../../components/Link';
-import AppBar from '../../components/AppBar';
-import BoxLogo from '../../components/BoxLogo';
-import Footer from '../../components/Footer';
-import color from "../../src/color";
+import Link from '@/components/Link';
+import AppBar from '@/components/AppBar';
+import BoxLogo from '@/components/BoxLogo';
+import Footer from '@/components/Footer';
+import color from "@/src/color";
 import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
-import { Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@material-ui/core';
+import { Button, FormControl, FormControlLabel, FormLabel, IconButton, InputAdornment, InputLabel, OutlinedInput, Radio, RadioGroup, TextField } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
+import * as cookie from 'cookie'
+
+
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { registerStorytelling, getUser } from '@/store/actions/productsAction';
+
+
+const axios = require('axios');
+import getConfig from 'next/config'
+import { useRouter } from 'next/router';
+import Loading from '@/components/Loading';
+const env = getConfig().publicRuntimeConfig;
+
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -66,53 +80,106 @@ const useStyles = makeStyles((theme: Theme) =>
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
-            }
+            },
+            '& .d-f': {
+                display: 'flex',
+                flexDirection: 'row',
+
+            },
         }
     })
 );
 interface State {
-    amount: string;
+    email: string;
     password: string;
-    weight: string;
-    weightRange: string;
+    name: string;
+    gender: String;
+    image: String;
     showPassword: boolean;
 }
-export default function register() {
+function localUser() {
+    let [userData, setUserData] = useState(null);
+    useEffect(() => {
+
+        setUserData(localStorage.getItem('ls-u'))
+    }, [])
+    return userData
+}
+
+const Register = ({ dataServer }) => {
     const classes = useStyles();
-    const [v_image, setImage] = useState('')
-    const [values, setValues] = React.useState<State>({
-        amount: '',
+    const router = useRouter();
+
+
+    const counter = useSelector((state) => state['reducer'])
+    const dispatch = useDispatch()
+
+
+    const [loading, setLoading] = useState(localUser ? true : false);
+    const [authSection, setAuthSection] = useState(null)
+    useEffect(() => {
+        console.log(counter);
+
+        (async () => {
+            let resGetUser = await dispatch(getUser());
+            await console.log('resGetUser -> ', resGetUser['reducer']);
+
+            if (resGetUser['reducer'].auth.isAuth) {
+                await router.push(`/`);
+            }
+
+        })();
+    }, [])
+
+    const [values, setValues] = useState<State>({
+        email: '',
         password: '',
-        weight: '',
-        weightRange: '',
+        name: '',
+        gender: 'female',
+        image: '',
         showPassword: false,
     });
 
-    const handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+
+    const handleChange = (prop: keyof State) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
     };
 
     const handleClickShowPassword = () => {
-
-
         setValues({ ...values, showPassword: !values.showPassword });
         console.log(values);
     };
 
-    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-    };
+    // const onFileChange = event => {
+    //     console.log(event.target.files[0]);
+    //     setImage(URL.createObjectURL(event.target.files[0]));
 
-    const onFileChange = event => {
-        console.log(event.target.files[0]);
-        setImage(URL.createObjectURL(event.target.files[0]));
-        // Update the state
-        // this.setState({ selectedFile: event.target.files[0] });
+    // };
 
-    };
+    const handleClickRegister = () => {
+        axios.post(`${env.API_HOST}auth/signup`, {
+            email: values.email,
+            password: values.password,
+            name: values.name,
+            sex: values.gender,
+        }).then(function (response) {
+            router.push(`/auth/login`)
+            console.log('signup -> ', response);
+        }).catch(function (error) {
+
+            console.log(error);
+        });
+
+    }
+
+    if (dataServer?.k_user) {
+        return <Loading show={true}></Loading>
+    }
+
+
     return (
         <div className={classes.root}>
-            <AppBar></AppBar>
+            <AppBar keyCookie={dataServer}></AppBar>
             <BoxLogo></BoxLogo>
             <div className="box-center">
                 <div className="box-login">
@@ -121,7 +188,9 @@ export default function register() {
                     </div>
                     <div className="box-input mb-4">
 
-                        <TextField className="mb-3" id="username-basic" label="Username" variant="outlined" fullWidth />
+                        <TextField className="mb-3" type="email" id="email-basic" label="Email" variant="outlined" fullWidth onChange={handleChange('email')} />
+
+                        {/* <TextField className="mb-3" id="email-basic" label="Email" variant="outlined" fullWidth /> */}
                         <FormControl variant="outlined" fullWidth className="mb-3">
                             <InputLabel htmlFor="outlined-adornment-password" >Password</InputLabel>
                             <OutlinedInput
@@ -145,9 +214,15 @@ export default function register() {
                                 labelWidth={70}
                             />
                         </FormControl>
-                        <TextField className="mb-3" type="email" id="name-basic" label="Full Name" variant="outlined" fullWidth />
-                        <TextField className="mb-3" type="email" id="email-basic" label="Email" variant="outlined" fullWidth />
-                        <div className="box-upload">
+                        <TextField className="mb-3" type="text" id="name-basic" label="Full Name" variant="outlined" fullWidth onChange={handleChange('name')} />
+                        <FormControl component="fieldset">
+                            <FormLabel component="legend">Gender</FormLabel>
+                            <RadioGroup className="d-f" aria-label="gender" name="gender1" value={values.gender} onChange={handleChange('gender')}>
+                                <FormControlLabel value="female" control={<Radio />} label="Female" />
+                                <FormControlLabel value="male" control={<Radio />} label="Male" />
+                            </RadioGroup>
+                        </FormControl>
+                        {/* <div className="box-upload">
 
                             <div className="file-container">
                                 <div className="file-overlay"></div>
@@ -158,7 +233,7 @@ export default function register() {
                                             <div className="file-infos">
                                                 <p className="file-icon">
                                                     <i className="far fa-images fa-5x icon"></i>
-                                                    {/* <i className="fas fa-file-upload fa-7x"></i> */}
+                                                 
                                                     <span className="icon-shadow"></span>
                                                     <span>Click to browse
                                                         <span className="has-drag"> or drop image here</span>
@@ -174,16 +249,16 @@ export default function register() {
 
 
 
-                                        {/* <p className="file-name" id="js-file-name">No file selected</p> */}
+                                    
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
                     </div>
                     <div className="box-btn">
                         <FormControl fullWidth>
-                            <Button variant="contained" size="large" color="primary" disableElevation>Sign up STORYTELLING</Button>
+                            <Button variant="contained" size="large" color="primary" disableElevation onClick={handleClickRegister}>Sign up STORYTELLING</Button>
                         </FormControl>
                     </div>
                     {/* <div className="box-com">
@@ -213,26 +288,22 @@ export default function register() {
         </div>
     )
 }
-// import React, { useEffect, useState } from 'react'
-// import Link from '../../components/Link';
-// import AppBar from '../../components/AppBar';
-// import BoxLogo from '../../components/BoxLogo';
-// import Footer from '../../components/Footer';
-// import { createStyles, makeStyles, Theme, useTheme } from '@material-ui/core/styles';
-// const useStyles = makeStyles((theme: Theme) =>
-//     createStyles({
-//         root: {
-//         }
-//     })
-// );
-// export default function login() {
-//     const classes = useStyles();
-//     return (
-//         <div className={classes.root}>
-//             <AppBar></AppBar>
-//             <BoxLogo></BoxLogo>
-//             <Footer></Footer>
-//         </div>
-//     )
-// }
+
+
+
+export async function getServerSideProps(context) {
+    console.log(context);
+    let dataServer = null
+    let c = context.req.headers.cookie
+    if (context.req.headers.cookie) {
+        dataServer = cookie.parse(context.req.headers.cookie);
+    }
+
+    return {
+        props: { dataServer }
+    }
+}
+
+export default Register;
+
 

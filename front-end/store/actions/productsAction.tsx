@@ -1,7 +1,32 @@
 const axios = require('axios');
 import getConfig from 'next/config'
 const env = getConfig().publicRuntimeConfig;
+import Cookies from 'js-cookie'
 
+
+export const registerStorytelling = (req) => async (dispatch, subscribe) => {
+    console.log('email', req.email);
+    // console.log('password', password);
+    // console.log('env', env);
+
+    // let items = 'false';
+    await axios.post(`${env.API_HOST}auth/signup`, {
+        email: req.email,
+        password: req.password,
+        name: req.name,
+        sex: req.gender,
+    }).then(function (response) {
+
+        console.log('signup -> ', response);
+    }).catch(function (error) {
+
+        console.log(error);
+    });
+
+
+    dispatch({ type: 'REGISTER' })
+    return subscribe({ type: 'REGISTER' })
+}
 
 export const loginStorytelling = (email, password) => async (dispatch, subscribe) => {
     console.log('email', email);
@@ -32,15 +57,19 @@ export const loginStorytelling = (email, password) => async (dispatch, subscribe
     return subscribe({ type: 'LOGIN', payload: items })
 }
 
-export const logoutStorytelling = (email, password) => async (dispatch, subscribe) => {
+export const logoutStorytelling = () => async (dispatch, subscribe) => {
 
     // console.log('email', email);
     // console.log('password', password);
     // console.log('env', env);
     let items = {};
-    await axios.delete(`${env.API_HOST}auth/signout`).then(function (response) {
+    await axios.delete(`${env.API_HOST}auth/signout`, {
+        headers: {
+            'Authorization': `bearer ${Cookies.get('k_user')}`
+        }
+    }).then(function (response) {
+        Cookies.remove('k_user')
 
-        localStorage.removeItem('ls-u');
         console.log("logout ", response);
         items = {
             isAuth: false,
@@ -66,23 +95,23 @@ export const logoutStorytelling = (email, password) => async (dispatch, subscrib
 }
 
 export const getUser = () => async (dispatch, subscribe) => {
+    console.log('getUser');
 
-    console.log("getUser");
     let items = {}
     await axios.get(`${env.API_HOST}auth/profile`, {
         headers: {
-            'Authorization': `bearer ${localStorage.getItem('ls-u')}`
+            'Authorization': `bearer ${Cookies.get('k_user')}`
         }
     }).then((res) => {
-        // console.log(res.data.user)
+        // console.log(res.data)
         if (res.data.status.success) {
             items = { isAuth: true, user: res.data.user }
         } else {
-
+            items = { isAuth: false, user: null }
         }
 
     }).catch((error) => {
-        // console.error(error)
+        console.log('error')
         // items = { isAuth: false }
     })
     // console.log("items", items);
@@ -93,124 +122,29 @@ export const getUser = () => async (dispatch, subscribe) => {
 
 
 export const loadRating = () => async (dispatch, subscribe) => {
-    const items = [
-        {
-            id: 1,
-            name: 'Jesdakorn Saelor',
-            image: 'https://picsum.photos/800/600?random=1',
-        },
-        {
-            id: 2,
-            name: 'Jesdakorn Saelor',
-            image: 'https://picsum.photos/800/600?random=2',
-        },
-        {
-            id: 3,
-            name: 'Jesdakorn Saelor',
-            image: 'https://picsum.photos/800/600?random=3',
-        }, {
-            id: 4,
-            name: 'Jesdakorn Saelor',
-            image: 'https://picsum.photos/800/600?random=4',
-        },
-        {
-            id: 5,
-            name: 'Jesdakorn Saelor',
-            image: 'https://picsum.photos/800/600?random=5',
-        },
-        {
-            id: 6,
-            name: 'Jesdakorn Saelor',
-            image: 'https://picsum.photos/800/600?random=6',
-        },
-        {
-            id: 7,
-            name: 'Jesdakorn Saelor',
-            image: 'https://picsum.photos/800/600?random=7',
-        },
-        {
-            id: 8,
-            name: 'Jesdakorn Saelor',
-            image: 'https://picsum.photos/800/600?random=8',
-        },
-        {
-            id: 9,
-            name: 'Jesdakorn Saelor',
-            image: 'https://picsum.photos/800/600?random=9',
-        },
-        {
-            id: 10,
-            name: 'Jesdakorn Saelor',
-            image: 'https://picsum.photos/800/600?random=10',
-        },
-        {
-            id: 11,
-            name: 'Jesdakorn Saelor',
-            image: 'https://picsum.photos/800/600?random=11',
-        },
-        {
-            id: 12,
-            name: 'Jesdakorn Saelor',
-            image: 'https://picsum.photos/800/600?random=12',
-        },
-        {
-            id: 13,
-            name: 'Jesdakorn Saelor',
-            image: 'https://picsum.photos/800/600?random=13',
-        },
-        {
-            id: 14,
-            name: 'Jesdakorn Saelor',
-            image: 'https://picsum.photos/800/600?random=14',
-        }
-    ];
+    let items;
+    await axios.get(`${env.API_HOST}auth/storys`).then((res) => {
+        console.log(res.data)
+        items = res.data.avatarRank;
+    }).catch((error) => {
+        console.log('error')
+        // items = { isAuth: false }
+    })
+
     dispatch({ type: 'RATING', payload: items })
     return subscribe({ type: 'RATING', payload: items })
 }
 
 export const loadStoryRecommend = () => async (dispatch, subscribe) => {
-    const items = [
-        {
-            id: 1,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=1',
-        },
-        {
-            id: 2,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=2',
-        },
-        {
-            id: 3,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=3',
-        },
-        {
-            id: 4,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=4',
-        },
-        {
-            id: 5,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=5',
-        },
-        {
-            id: 6,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=6',
-        },
-        {
-            id: 7,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=7',
-        },
-        {
-            id: 8,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=8',
-        }
-    ];
+    let items;
+    await axios.get(`${env.API_HOST}auth/storys`).then((res) => {
+        console.log(res.data)
+        items = res.data.storysRank;
+    }).catch((error) => {
+        console.log('error')
+        // items = { isAuth: false }
+    })
+
     dispatch({ type: 'STORY_RECOMMEND', payload: items })
     return subscribe({ type: 'STORY_RECOMMEND', payload: items })
 }
@@ -218,159 +152,46 @@ export const loadStoryRecommend = () => async (dispatch, subscribe) => {
 export const loadStory = (page, category = 'default') => async (dispatch, subscribe) => {
     console.log('page: ', page);
     console.log('category: ', category);
+    let items;
+    // http://127.0.0.1:8000/api/auth/storys/all/list/24/fdgh?page=1
+    await axios.get(`${env.API_HOST}auth/storys/all/list/24/${category}?page=${page}`).then((res) => {
+        console.log(res.data)
+        items = {
+            last_page: res.data.SR_Storys.last_page,
+            item: res.data.SR_Storys.data
 
-    const items = {
-        data: {
-            totle: 10,
+        }
+    }).catch((error) => {
+        console.log('error')
+        // items = { isAuth: false }
+    })
 
-        },
-        item: [{
-            id: 1,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=1',
-            categorys: 'อาหาร'
-        },
-        {
-            id: 2,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=2',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 3,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=3',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 4,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=4',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 5,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=5',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 6,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=6',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 7,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=7',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 8,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=8',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 9,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=9',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 10,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=10',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 11,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=11',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 12,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=12',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 13,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=13',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 14,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=14',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 15,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=15',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 16,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=16',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 17,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=17',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 18,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=18',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 19,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=19',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 20,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=20',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 21,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=21',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 22,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=22',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 23,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=23',
-            categorys: 'อาหาร',
-        },
-        {
-            id: 24,
-            title: 'Black Genuine Leather Bags.',
-            image: 'https://picsum.photos/800/600?random=24',
-            categorys: 'อาหาร',
-        }]
-    };
     dispatch({ type: 'STORYS', payload: items })
     return subscribe({ type: 'STORYS', payload: items })
+}
+
+
+
+export const loadStoryMy = (page) => async (dispatch, subscribe) => {
+    let items;
+    // http://127.0.0.1:8000/api/auth/storys/all/list/24/fdgh?page=1
+    await axios.get(`${env.API_HOST}auth/storys/all/my`, {
+        headers: {
+            'Authorization': `bearer ${Cookies.get('k_user')}`
+        }
+    }).then((res) => {
+        console.log(res.data)
+        items = {
+            last_page: res.data.storys.last_page,
+            item: res.data.storys.data
+
+        }
+    }).catch((error) => {
+        console.log('error')
+        // items = { isAuth: false }
+    })
+    dispatch({ type: 'MY_STORYS', payload: items })
+    return subscribe({ type: 'MY_STORYS', payload: items })
 }
 
 
@@ -386,6 +207,33 @@ export const loadCategory = () => async (dispatch, subscribe) => {
     dispatch({ type: 'CATEGORYS', payload: items })
     return subscribe({ type: 'CATEGORYS', payload: items })
 }
+
+
+export const loadGetStory = (id) => async (dispatch, subscribe) => {
+    let items;
+    // http://127.0.0.1:8000/api/auth/storys/all/list/24/fdgh?page=1
+    await axios.get(`${env.API_HOST}auth/storys/${id}`).then((res) => {
+        console.log(res.data)
+        if (res.data.status.success) {
+            items = {
+                profile: res.data.profile,
+                story: res.data.storys,
+            }
+        }else{
+            items = {
+                profile: {},
+                story: {},
+            }
+        }
+
+    }).catch((error) => {
+        console.log('error')
+        // items = { isAuth: false }
+    })
+    dispatch({ type: 'GET_CONTENT', payload: items })
+    return subscribe({ type: 'GET_CONTENT', payload: items })
+}
+
 
 
 export const loadProduct = (id) => async (dispatch, subscribe) => {
