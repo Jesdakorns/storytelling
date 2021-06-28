@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 
-const Transition = React.forwardRef<unknown, TransitionProps>((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+const Transition = React.forwardRef<unknown, TransitionProps>((props, ref) => <Slide direction="up" />);
 
 
 const my = ({ dataServer }) => {
